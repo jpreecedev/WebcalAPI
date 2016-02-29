@@ -112,14 +112,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
+    <Compile Include="Core\AuthorizationAttribute.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConnectContext.cs" />
     <Compile Include="Core\Initializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Modules\BasicAuthHttpModule.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
     <Compile Include="Models\LicenseViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

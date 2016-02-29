@@ -12,6 +12,8 @@
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            FilterConfig.Register(GlobalConfiguration.Configuration);
+
             Database.SetInitializer(new Initializer());
 
             var formatters = GlobalConfiguration.Configuration.Formatters;
