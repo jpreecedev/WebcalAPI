@@ -9,6 +9,7 @@
     using System.Web.Http;
     using Connect.Shared.Models.License;
     using Core;
+    using Models;
 
     [RoutePrefix("api/licenses")]
     public class LicensesController : ApiController
@@ -19,51 +20,36 @@
         {
             using (var context = new ConnectContext())
             {
-                var model = context.Clients.Where(c => c.Deleted == null).Include(x => x.Licenses).Select(client => new
+                var model = context.Clients.Where(c => c.Deleted == null).Include(x => x.Licenses).Select(client => new ClientViewModel
                 {
-                    ClientId = client.AccessId,
-                    ClientName = client.Name,
-                    Licenses = client.Licenses.OrderByDescending(c => c.Expiration).Where(c => c.Deleted == null).Select(license => new
+                    AccessId = client.AccessId,
+                    Name = client.Name,
+                    Licenses = client.Licenses.OrderByDescending(c => c.Expiration).Where(c => c.Deleted == null).Select(license => new LicenseViewModel
                     {
                         License = license.Key,
-                        license.Expiration,
-                        LicenseId = license.AccessId
+                        Expiration = license.Expiration,
+                        AccessId = license.AccessId
                     }).ToList()
                 });
-
-                return Ok(await model.OrderBy(c => c.ClientName).ToListAsync());
+                
+                return Ok(await model.OrderBy(c => c.Name).ToListAsync());
             }
         }
-
-        [HttpDelete]
-        [Route("client/{accessId}")]
-        public async Task DeleteClient(Guid accessId)
-        {
-            using (var context = new ConnectContext())
-            {
-                var client = await context.Clients.FirstOrDefaultAsync(c => c.AccessId == accessId);
-                if (client != null)
-                {
-                    client.Deleted = DateTime.Now;
-                    await context.SaveChangesAsync();
-                }
-            }
-        }
-
+        
         [HttpPost]
-        [Route("client/{name}")]
-        public async Task<IHttpActionResult> AddClient(string name)
+        [Route("client")]
+        public async Task<IHttpActionResult> AddClient([FromBody]ClientViewModel data)
         {
-            if (string.IsNullOrEmpty(name))
+            if (data == null || string.IsNullOrEmpty(data.Name))
             {
-                throw new ArgumentNullException(nameof(name));
+                throw new ArgumentNullException(nameof(data));
             }
 
             using (var context = new ConnectContext())
             {
                 var client = new Client
                 {
-                    Name = name,
+                    Name = data.Name,
                     Created = DateTime.Now,
                     AccessId = Guid.NewGuid(),
                     Licenses = new List<License>()
@@ -72,7 +58,7 @@
                 context.Clients.Add(client);
                 await context.SaveChangesAsync();
 
-                return Json(new {client});
+                return Ok(client);
             }
         }
 
@@ -95,18 +81,18 @@
 
         [HttpPost]
         [Route("license")]
-        public async Task<IHttpActionResult> AddLicense([FromBody] Guid accessId, [FromBody] DateTime expiration)
+        public async Task<IHttpActionResult> AddLicense([FromBody]LicenseViewModel data)
         {
             using (var context = new ConnectContext())
             {
-                var client = await context.Clients.Include(x => x.Licenses).FirstOrDefaultAsync(c => c.AccessId == accessId);
+                var client = await context.Clients.Include(x => x.Licenses).FirstOrDefaultAsync(c => c.AccessId == data.AccessId);
                 if (client != null)
                 {
                     var license = new License
                     {
                         Created = DateTime.Now,
-                        Expiration = expiration,
-                        Key = expiration.Ticks.ToString(CultureInfo.InvariantCulture).TrimEnd(char.Parse("0")),
+                        Expiration = data.Expiration,
+                        Key = data.Expiration.Ticks.ToString(CultureInfo.InvariantCulture).TrimEnd(char.Parse("0")),
                         AccessId = Guid.NewGuid()
                     };
 
@@ -114,7 +100,7 @@
 
                     await context.SaveChangesAsync();
 
-                    return Json(new {license});
+                    return Ok(new LicenseViewModel(license));
                 }
 
                 return BadRequest("Could not find client");
@@ -125,7 +111,7 @@
         [Route("license/{expiration}")]
         public IHttpActionResult GetLicense(DateTime expiration)
         {
-            return Json(new
+            return Ok(new
             {
                 key = expiration.Ticks.ToString(CultureInfo.InvariantCulture).TrimEnd(char.Parse("0"))
             });
