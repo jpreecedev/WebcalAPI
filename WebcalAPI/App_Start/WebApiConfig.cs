@@ -33,10 +33,9 @@
             {
                 if (request.Headers.Contains("Origin") && request.Method.Method == "OPTIONS")
                 {
-                    var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
-                    // Define and add values to variables: origins, headers, methods (can be global)               
+                    var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};    
                     response.Headers.Add("Access-Control-Allow-Origin", "*");
-                    response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    response.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
                     response.Headers.Add("Access-Control-Allow-Methods", "*");
                     var tsc = new TaskCompletionSource<HttpResponseMessage>();
                     tsc.SetResult(response);

@@ -9,6 +9,8 @@ using System.Web;
 
 namespace WebcalAPI.Modules
 {
+    using System.Diagnostics;
+
     public class BasicAuthHttpModule : IHttpModule
     {
         private const string Realm = "WebcalConnect";
