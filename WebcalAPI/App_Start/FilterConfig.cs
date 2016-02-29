@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using WebcalAPI.Core;
 
 namespace WebcalAPI
 {
@@ -6,7 +7,7 @@ namespace WebcalAPI
     {
         public static void Register(HttpConfiguration config)
         {
-            config.Filters.Add(new AuthorizeAttribute());
+            config.Filters.Add(new AuthorizationAttribute());
         }
     }
 }

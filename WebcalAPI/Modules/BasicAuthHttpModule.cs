@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -34,8 +36,11 @@ namespace WebcalAPI.Modules
 
                 if (CheckPassword(name, password))
                 {
-                    var identity = new GenericIdentity(name);
-                    SetPrincipal(new GenericPrincipal(identity, null));
+                    var identity = new ClaimsIdentity(new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Role, "Admin")
+                    });
+                    SetPrincipal(new ClaimsPrincipal(identity));
                 }
                 else
                 {
