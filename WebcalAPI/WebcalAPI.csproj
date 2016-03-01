@@ -157,11 +157,10 @@
     <Compile Include="App_Start\Startup.OAuth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
-    <Compile Include="Core\AuthorizationAttribute.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConnectContext.cs" />
-    <Compile Include="Core\CustomJWTFormat.cs" />
-    <Compile Include="Core\CustomOAuthProvider.cs" />
+    <Compile Include="Identity\CustomJWTFormat.cs" />
+    <Compile Include="Identity\CustomOAuthProvider.cs" />
     <Compile Include="Core\Initializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

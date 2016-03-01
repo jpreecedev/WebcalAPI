@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.OAuth;
-
-namespace WebcalAPI.Core
+﻿namespace WebcalAPI.Core
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.OAuth;
+
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
@@ -13,7 +13,7 @@ namespace WebcalAPI.Core
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
 
             //Authentication
-            if (context.UserName != context.Password)
+            if (!IsAuthenticated(context.UserName, context.Password))
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect");
                 return Task.FromResult<object>(null);
@@ -55,6 +55,11 @@ namespace WebcalAPI.Core
 
             context.Validated();
             return Task.FromResult<object>(null);
+        }
+
+        private static bool IsAuthenticated(string username, string password)
+        {
+            return false;
         }
     }
 }
