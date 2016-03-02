@@ -1,4 +1,8 @@
-﻿namespace WebcalAPI.Core
+﻿using System.Security.Principal;
+using System.Threading;
+using System.Web;
+
+namespace WebcalAPI.Identity
 {
     using System.Collections.Generic;
     using System.Security.Claims;
@@ -25,6 +29,7 @@
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim(ClaimTypes.Role, "Manager"));
             identity.AddClaim(new Claim(ClaimTypes.Role, "Supervisor"));
+            SetPrincipal(new ClaimsPrincipal(identity));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
             {
@@ -59,7 +64,16 @@
 
         private static bool IsAuthenticated(string username, string password)
         {
-            return false;
+            return true;
+        }
+
+        private static void SetPrincipal(IPrincipal principal)
+        {
+            Thread.CurrentPrincipal = principal;
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.User = principal;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Core
+﻿namespace WebcalAPI.Identity
 {
     using System;
     using System.Configuration;

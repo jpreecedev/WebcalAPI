@@ -157,6 +157,7 @@
     <Compile Include="App_Start\Startup.OAuth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConnectContext.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
