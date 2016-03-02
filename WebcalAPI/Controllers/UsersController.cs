@@ -5,7 +5,7 @@
     using System.Web.Http;
 
     [RoutePrefix("api/user")]
-    public class UserController : ApiController
+    public class UserController : BaseApiController
     {
         [HttpGet]
         [Route("roles")]

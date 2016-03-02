@@ -12,7 +12,7 @@
     using Models;
 
     [RoutePrefix("api/licenses")]
-    public class LicensesController : ApiController
+    public class LicensesController : BaseApiController
     {
         [HttpGet]
         [Route("clients")]

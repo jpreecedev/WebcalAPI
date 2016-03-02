@@ -1,25 +1,29 @@
-﻿using System.Security.Principal;
-using System.Threading;
-using System.Web;
-
-namespace WebcalAPI.Identity
+﻿namespace WebcalAPI.Identity
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
+    using System.Security.Principal;
+    using System.Threading;
     using System.Threading.Tasks;
+    using System.Web;
+    using Connect.Shared.Models;
+    using Core;
+    using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.OAuth;
+    using Microsoft.AspNet.Identity.Owin;
 
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-            //Authentication
-            if (!IsAuthenticated(context.UserName, context.Password))
+            ConnectUser user;
+            if (!AuthenticateUser(context, out user))
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect");
                 return Task.FromResult<object>(null);
             }
 
@@ -27,8 +31,12 @@ namespace WebcalAPI.Identity
             var identity = new ClaimsIdentity("JWT");
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
             identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim(ClaimTypes.Role, "Manager"));
-            identity.AddClaim(new Claim(ClaimTypes.Role, "Supervisor"));
+
+            foreach (var role in context.OwinContext.Get<ApplicationUserManager>().GetRoles(user.Id))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+            
             SetPrincipal(new ClaimsPrincipal(identity));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
@@ -40,6 +48,26 @@ namespace WebcalAPI.Identity
             context.Validated(ticket);
 
             return Task.FromResult<object>(null);
+        }
+
+        private static bool AuthenticateUser(OAuthGrantResourceOwnerCredentialsContext context, out ConnectUser user)
+        {
+            user = null;
+
+            if (string.IsNullOrEmpty(context.UserName) || string.IsNullOrEmpty(context.Password))
+            {
+                context.SetError("invalid_grant", "The user name or password is incorrect");
+                return false;
+            }
+            user = context.OwinContext.Get<ConnectContext>().Users.ToList().FirstOrDefault(c => string.Equals(c.CompanyKey.Replace(" ", "").Trim(), context.UserName.Replace(" ", "").Trim(), StringComparison.CurrentCultureIgnoreCase));
+
+            if (!context.OwinContext.Get<ApplicationUserManager>().CheckPassword(user, context.Password))
+            {
+                context.SetError("invalid_grant", "The user name or password is incorrect");
+                return false;
+            }
+
+            return true;
         }
 
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -60,11 +88,6 @@ namespace WebcalAPI.Identity
 
             context.Validated();
             return Task.FromResult<object>(null);
-        }
-
-        private static bool IsAuthenticated(string username, string password)
-        {
-            return true;
         }
 
         private static void SetPrincipal(IPrincipal principal)
