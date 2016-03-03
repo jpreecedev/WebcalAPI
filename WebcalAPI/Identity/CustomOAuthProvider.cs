@@ -8,18 +8,19 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
+    using Connect.Shared;
     using Connect.Shared.Models;
     using Core;
     using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.OAuth;
-    using Microsoft.AspNet.Identity.Owin;
 
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
 
             ConnectUser user;
             if (!AuthenticateUser(context, out user))
@@ -27,27 +28,56 @@
                 return Task.FromResult<object>(null);
             }
 
-            //Claims
-            var identity = new ClaimsIdentity("JWT");
-            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-            identity.AddClaim(new Claim("sub", context.UserName));
-
-            foreach (var role in context.OwinContext.Get<ApplicationUserManager>().GetRoles(user.Id))
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, role));
-            }
-            
-            SetPrincipal(new ClaimsPrincipal(identity));
-
             var props = new AuthenticationProperties(new Dictionary<string, string>
             {
                 {"audience", context.ClientId ?? string.Empty}
             });
 
-            var ticket = new AuthenticationTicket(identity, props);
+            var ticket = new AuthenticationTicket(SetClaimsIdentity(context, user), props);
             context.Validated(ticket);
 
             return Task.FromResult<object>(null);
+        }
+        
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        {
+            string clientId;
+            string clientSecret;
+
+            if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
+            {
+                context.TryGetFormCredentials(out clientId, out clientSecret);
+            }
+
+            if (context.ClientId == null)
+            {
+                context.SetError("invalid_clientId", "client_Id is not set");
+                return Task.FromResult<object>(null);
+            }
+
+            context.Validated();
+            return Task.FromResult<object>(null);
+        }
+
+        private static ClaimsIdentity SetClaimsIdentity(OAuthGrantResourceOwnerCredentialsContext context, ConnectUser user)
+        {
+            var identity = new ClaimsIdentity("JWT");
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+            identity.AddClaim(new Claim("sub", context.UserName));
+
+            var userRoles = context.OwinContext.Get<ApplicationUserManager>().GetRoles(user.Id);
+            if (userRoles.Any(r => r == ConnectRoles.Admin))
+            {
+                userRoles = ConnectRoles.All;
+            }
+
+            foreach (var role in userRoles)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
+            SetPrincipal(new ClaimsPrincipal(identity));
+            return identity;
         }
 
         private static bool AuthenticateUser(OAuthGrantResourceOwnerCredentialsContext context, out ConnectUser user)
@@ -68,26 +98,6 @@
             }
 
             return true;
-        }
-
-        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
-        {
-            string clientId;
-            string clientSecret;
-
-            if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
-            {
-                context.TryGetFormCredentials(out clientId, out clientSecret);
-            }
-
-            if (context.ClientId == null)
-            {
-                context.SetError("invalid_clientId", "client_Id is not set");
-                return Task.FromResult<object>(null);
-            }
-
-            context.Validated();
-            return Task.FromResult<object>(null);
         }
 
         private static void SetPrincipal(IPrincipal principal)
