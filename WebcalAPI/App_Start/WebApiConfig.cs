@@ -33,7 +33,7 @@
             {
                 if (request.Headers.Contains("Origin") && request.Method.Method == "OPTIONS")
                 {
-                    var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};    
+                    var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
                     response.Headers.Add("Access-Control-Allow-Origin", "*");
                     response.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
                     response.Headers.Add("Access-Control-Allow-Methods", "*");
