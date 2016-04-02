@@ -1,6 +1,6 @@
 ﻿namespace WebcalAPI.Core
 {
-    using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Security.Principal;
@@ -27,6 +27,11 @@
                 return context.Users.Include(c => c.CustomerContact)
                     .FirstOrDefault(c => c.Id == userId);
             }
+        }
+
+        public static IEnumerable<T> AsPagedData<T>(this IEnumerable<T> data, int pageIndex, int pageSize)
+        {
+            return data.Skip((pageIndex - 1)*pageSize).Take(pageSize);
         }
     }
 }

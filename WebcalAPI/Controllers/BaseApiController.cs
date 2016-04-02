@@ -1,6 +1,8 @@
 ﻿namespace WebcalAPI.Controllers
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -8,6 +10,7 @@
     using Connect.Shared.Models;
     using Core;
     using Microsoft.AspNet.Identity.Owin;
+    using Models;
 
     public class BaseApiController : ApiController
     {
@@ -35,6 +38,11 @@
             };
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
             return result;
+        }
+
+        protected IHttpActionResult PagedResponse<T>(int pageSize, int pageIndex, IEnumerable<T> data)
+        {
+            return Ok(new PagedResponse<T>(data, pageIndex, pageSize));
         }
     }
 }

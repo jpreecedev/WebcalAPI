@@ -81,20 +81,20 @@
                 if (userRoles.Any(role => string.Equals(ConnectRoles.Admin, role)))
                 {
                     documents = from document in context.Set<T>()
-                        where document.Deleted == null
-                        select document;
+                                where document.Deleted == null
+                                select document;
                 }
                 else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)))
                 {
                     documents = from document in context.Set<T>()
-                        where document.Deleted == null && document.UserId == connectUser.Id
-                        select document;
+                                where document.Deleted == null && document.UserId == connectUser.Id
+                                select document;
                 }
                 else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)) && connectUser.CustomerContact != null)
                 {
                     documents = from linkedVehicle in context.LinkedVehicles.Include(x => x.CustomerContact).Where(v => v.CustomerContact.Id == connectUser.CustomerContact.Id).DefaultIfEmpty()
-                        from document in context.Set<T>().Where(d => d.RegistrationNumber == linkedVehicle.VehicleRegistrationNumber).DefaultIfEmpty()
-                        select document;
+                                from document in context.Set<T>().Where(d => d.RegistrationNumber == linkedVehicle.VehicleRegistrationNumber).DefaultIfEmpty()
+                                select document;
                 }
 
                 if (from != null && to != null && documents != null)
