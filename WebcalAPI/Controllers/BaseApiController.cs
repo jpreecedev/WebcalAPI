@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Net.Mail;
     using System.Web.Http;
     using Connect.Shared.Models;
     using Core;
@@ -43,6 +44,30 @@
         protected IHttpActionResult PagedResponse<T>(int pageSize, int pageIndex, IEnumerable<T> data)
         {
             return Ok(new PagedResponse<T>(data, pageIndex, pageSize));
+        }
+
+        protected static void SendEmail(string recipient, string subject, string body, List<Attachment> attachments = null)
+        {
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.To.Add(recipient);
+                mailMessage.Subject = subject;
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Body = body;
+                mailMessage.From = new MailAddress("webcal@tachoworkshop.co.uk");
+
+                if (attachments != null)
+                {
+                    attachments.ForEach(c => mailMessage.Attachments.Add(c));
+                }
+
+                using (var smtp = new SmtpClient())
+                {
+                    smtp.Credentials = new NetworkCredential("admin@webcalconnect.com", "No05K8lGgB");
+                    smtp.Host = "mail.webcalconnect.com";
+                    smtp.Send(mailMessage);
+                }
+            }
         }
     }
 }

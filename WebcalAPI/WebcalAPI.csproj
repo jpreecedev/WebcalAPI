@@ -176,12 +176,15 @@
     <Compile Include="Core\ConnectContext.cs" />
     <Compile Include="Core\ConnectContextExtensions.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
     <Compile Include="Identity\CustomOAuthProvider.cs" />
     <Compile Include="Core\Initializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CalibrationCertificateEmailViewModel.cs" />
+    <Compile Include="Models\CalibrationEmailViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
     <Compile Include="Models\HistoryViewModel.cs" />
     <Compile Include="Models\InspectionDataViewModel.cs" />
