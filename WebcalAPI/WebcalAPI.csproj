@@ -166,6 +166,7 @@
     <Compile Include="App_Start\Startup.OAuth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\InspectionDataController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\RecentCalibrationsController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
@@ -181,6 +182,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ClientViewModel.cs" />
+    <Compile Include="Models\HistoryViewModel.cs" />
+    <Compile Include="Models\InspectionDataViewModel.cs" />
     <Compile Include="Models\LicenseViewModel.cs" />
     <Compile Include="Models\RecentCalibrationsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

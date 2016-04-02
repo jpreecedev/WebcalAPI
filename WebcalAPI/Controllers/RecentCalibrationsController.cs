@@ -1,7 +1,6 @@
 ﻿namespace WebcalAPI.Controllers
 {
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using Core;
     using Models;
@@ -10,7 +9,7 @@
     public class RecentCalibrationsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IHttpActionResult> Get()
+        public IHttpActionResult Get()
         {
             using (var context = new ConnectContext())
             {

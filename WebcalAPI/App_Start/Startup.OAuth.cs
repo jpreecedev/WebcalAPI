@@ -64,7 +64,7 @@
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/oauth2/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(90),
                 Provider = new CustomOAuthProvider(),
                 AccessTokenFormat = new CustomJwtFormat(issuer)
             };
