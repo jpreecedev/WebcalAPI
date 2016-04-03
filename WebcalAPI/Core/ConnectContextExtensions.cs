@@ -59,6 +59,22 @@
             return null;
         }
 
+        public static IEnumerable<Document> GetAllDocuments(this ConnectContext context, ConnectUser connectUser, DateTime from, DateTime to)
+        {
+            if (connectUser == null)
+            {
+                throw new ArgumentException("ConnectUser is invalid");
+            }
+
+            IEnumerable<Document> result = new List<Document>();
+
+            result = result.Concat(GetDocuments<TachographDocument>(context, connectUser, from, to));
+            result = result.Concat(GetDocuments<UndownloadabilityDocument>(context, connectUser, from, to));
+            result = result.Concat(GetDocuments<LetterForDecommissioningDocument>(context, connectUser, from, to));
+
+            return result.OrderByDescending(c => c.InspectionDate.GetValueOrDefault());
+        }
+
         public static IEnumerable<Document> GetAllDocuments(this ConnectContext context, ConnectUser connectUser)
         {
             if (connectUser == null)

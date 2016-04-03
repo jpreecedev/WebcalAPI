@@ -1,5 +1,6 @@
 ﻿namespace WebcalAPI.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -32,6 +33,16 @@
         public static IEnumerable<T> AsPagedData<T>(this IEnumerable<T> data, int pageIndex, int pageSize)
         {
             return data.Skip((pageIndex - 1)*pageSize).Take(pageSize);
+        }
+
+        public static DateTime StartOfMonth(this DateTime dateTime)
+        {
+            return DateTime.Parse($"1/{dateTime.Month}/{dateTime.Year}");
+        }
+
+        public static DateTime EndOfNextMonth(this DateTime dateTime)
+        {
+            return DateTime.Parse($"1/{DateTime.Now.Month}/{DateTime.Now.Year}").AddMonths(2).AddDays(-1);
         }
     }
 }
