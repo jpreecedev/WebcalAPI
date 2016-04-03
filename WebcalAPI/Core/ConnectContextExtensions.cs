@@ -14,6 +14,20 @@
 
     public static class ConnectContextExtensions
     {
+        public static IEnumerable<T> GetReports<T>(this ConnectContext context, ConnectUser connectUser) where T : BaseReport
+        {
+            if (connectUser == null)
+            {
+                throw new ArgumentException("ConnectUser is invalid");
+            }
+
+            IEnumerable<T> result = new List<T>();
+
+            result = result.Concat(DoGetReports<T>(context, connectUser));
+
+            return result.OrderByDescending(c => c.Created.Date);
+        }
+
         public static async Task<BaseModel> GetDocumentAsync(this ConnectContext context, DocumentType documentType, int id)
         {
             IQueryable<BaseModel> set = null;
@@ -63,7 +77,7 @@
 
         private static IEnumerable<T> GetDocuments<T>(ConnectContext context, ConnectUser connectUser) where T : Document
         {
-            return GetDocuments<T>(context, connectUser, (DateTime?)SqlDateTime.MinValue, (DateTime?)SqlDateTime.MaxValue);
+            return GetDocuments<T>(context, connectUser, (DateTime?) SqlDateTime.MinValue, (DateTime?) SqlDateTime.MaxValue);
         }
 
         private static IEnumerable<T> GetDocuments<T>(ConnectContext context, ConnectUser connectUser, DateTime? from, DateTime? to) where T : Document
@@ -81,20 +95,20 @@
                 if (userRoles.Any(role => string.Equals(ConnectRoles.Admin, role)))
                 {
                     documents = from document in context.Set<T>()
-                                where document.Deleted == null
-                                select document;
+                        where document.Deleted == null
+                        select document;
                 }
                 else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)))
                 {
                     documents = from document in context.Set<T>()
-                                where document.Deleted == null && document.UserId == connectUser.Id
-                                select document;
+                        where document.Deleted == null && document.UserId == connectUser.Id
+                        select document;
                 }
                 else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)) && connectUser.CustomerContact != null)
                 {
                     documents = from linkedVehicle in context.LinkedVehicles.Include(x => x.CustomerContact).Where(v => v.CustomerContact.Id == connectUser.CustomerContact.Id).DefaultIfEmpty()
-                                from document in context.Set<T>().Where(d => d.RegistrationNumber == linkedVehicle.VehicleRegistrationNumber).DefaultIfEmpty()
-                                select document;
+                        from document in context.Set<T>().Where(d => d.RegistrationNumber == linkedVehicle.VehicleRegistrationNumber).DefaultIfEmpty()
+                        select document;
                 }
 
                 if (from != null && to != null && documents != null)
@@ -131,6 +145,45 @@
         private static ApplicationUserManager GetApplicationUserManager()
         {
             return HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        }
+
+        private static IEnumerable<T> DoGetReports<T>(ConnectContext context, ConnectUser connectUser) where T : BaseReport
+        {
+            return GetCentreReports<T>(context, connectUser, (DateTime?) SqlDateTime.MinValue, (DateTime?) SqlDateTime.MaxValue);
+        }
+
+        private static IEnumerable<T> GetCentreReports<T>(ConnectContext context, ConnectUser connectUser, DateTime? from, DateTime? to) where T : BaseReport
+        {
+            var result = new List<T>();
+
+            var documentCount = context.Set<T>().Count();
+            if (documentCount > 0)
+            {
+                var applicationUserManager = GetApplicationUserManager();
+
+                IQueryable<T> documents = null;
+                var userRoles = applicationUserManager.GetRoles(connectUser.Id);
+
+                if (userRoles.Any(role => string.Equals(ConnectRoles.Admin, role)))
+                {
+                    documents = from document in context.Set<T>()
+                        where document.Deleted == null
+                        select document;
+                }
+                else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)))
+                {
+                    documents = from document in context.Set<T>()
+                        where document.Deleted == null && (document.ConnectUserId.HasValue ? document.ConnectUserId.Value : 0) == connectUser.Id
+                        select document;
+                }
+
+                if (documents != null)
+                {
+                    result.AddRange(documents);
+                }
+            }
+
+            return result;
         }
     }
 }

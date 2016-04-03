@@ -20,22 +20,35 @@
             DocumentType documentType;
             if (Enum.TryParse(itemKey, out documentType))
             {
-                Document document;
+                BaseModel model;
                 using (var context = new ConnectContext())
                 {
-                    document = (Document)await context.GetDocumentAsync(documentType, itemId);
+                    model = await context.GetDocumentAsync(documentType, itemId);
                 }
 
-                if (User.IsInRole(ConnectRoles.Admin) || User.Identity.GetUserId<int>() == document.UserId)
+                var userId = -1;
+                byte[] serializedData = null;
+
+                var document = model as Document;
+                if (document != null)
                 {
-                    if (document != null && document.SerializedData != null)
-                    {
-                        return Pdf(document.SerializedData, $"{itemKey}.pdf");
-                    }
+                    userId = document.UserId;
+                    serializedData = document.SerializedData;
                 }
 
-                return new HttpResponseMessage(HttpStatusCode.Forbidden);
+                var report = model as BaseReport;
+                if (report != null && report.ConnectUserId != null)
+                {
+                    userId = report.ConnectUserId.Value;
+                    serializedData = report.SerializedData;
+                }
+
+                if (userId != -1 && serializedData != null && (User.IsInRole(ConnectRoles.Admin) || User.Identity.GetUserId<int>() == userId))
+                {
+                    return Pdf(serializedData, $"{itemKey}.pdf");
+                }
             }
+
             return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }

@@ -169,6 +169,7 @@
     <Compile Include="Controllers\InspectionDataController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
+    <Compile Include="Controllers\QCCheckController.cs" />
     <Compile Include="Controllers\RecentCalibrationsController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Models\ManageAccessSiteViewModel.cs" />
     <Compile Include="Models\ManageAccessUserViewModel.cs" />
     <Compile Include="Models\PagedResponse.cs" />
+    <Compile Include="Models\QCCheckViewModel.cs" />
     <Compile Include="Models\RecentCalibrationsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
