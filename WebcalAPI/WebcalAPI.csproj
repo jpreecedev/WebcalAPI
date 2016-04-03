@@ -169,6 +169,7 @@
     <Compile Include="Controllers\InspectionDataController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
+    <Compile Include="Controllers\CentreCheckController.cs" />
     <Compile Include="Controllers\QCCheckController.cs" />
     <Compile Include="Controllers\RecentCalibrationsController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
@@ -186,6 +187,7 @@
     </Compile>
     <Compile Include="Models\CalibrationCertificateEmailViewModel.cs" />
     <Compile Include="Models\CalibrationEmailViewModel.cs" />
+    <Compile Include="Models\CentreCheckViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
     <Compile Include="Models\HistoryViewModel.cs" />
     <Compile Include="Models\InspectionDataViewModel.cs" />
