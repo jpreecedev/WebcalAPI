@@ -169,6 +169,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\CalibrationsDueController.cs" />
+    <Compile Include="Controllers\ConfirmAccountController.cs" />
     <Compile Include="Controllers\InspectionDataController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Models\CalibrationsDueViewModel.cs" />
     <Compile Include="Models\CentreCheckViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
+    <Compile Include="Models\ConfirmAccountViewModel.cs" />
     <Compile Include="Models\HistoryViewModel.cs" />
     <Compile Include="Models\InspectionDataViewModel.cs" />
     <Compile Include="Models\LicenseViewModel.cs" />

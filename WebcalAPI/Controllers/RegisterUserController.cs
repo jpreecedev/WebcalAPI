@@ -64,12 +64,12 @@
             var code = UserManager.GenerateEmailConfirmationToken(user.Id);
 
 #if DEBUG
-            var callbackUrl = $"http://localhost:3000/confirm-account/{code}";
+            var callbackUrl = $"http://localhost:3000/confirm-account/{user.Id}/{code}";
 #else
-            var callbackUrl = $"http://test.webcalconnect.com/confirm-account/{code}";
+            var callbackUrl = $"http://test.webcalconnect.com/confirm-account/{user.Id}/{code}";
 #endif
 
-            SendEmail(user.Email, "Please confirm your email address", $"<a href=\"{callbackUrl}\">Click Here To Verify Your Email Address</a>");
+            SendEmail(user.Email, "Please confirm your email address", $"<a href=\"{Uri.EscapeDataString(callbackUrl)}\">Click Here To Verify Your Email Address</a>");
         }
 
         private void AssociateUserWithTachoCentre(ConnectContext context, ConnectUser user)
