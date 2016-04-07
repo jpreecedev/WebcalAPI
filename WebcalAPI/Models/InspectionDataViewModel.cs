@@ -25,6 +25,14 @@
 
         public List<HistoryViewModel> History { get; set; }
 
+        public bool IsDefault
+        {
+            get
+            {
+                return CalibrationDate == default(DateTime) && InspectionDate == default(DateTime);
+            }
+        }
+
         public void Parse(TachographDocument document)
         {
             if (document == null)
