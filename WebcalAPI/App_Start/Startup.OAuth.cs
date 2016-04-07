@@ -35,7 +35,12 @@
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            return new ApplicationUserManager(new ConnectUserStore(context.Get<ConnectContext>()));
+            var provider = new DpapiDataProtectionProvider("WebcalAPI");
+
+            return new ApplicationUserManager(new ConnectUserStore(context.Get<ConnectContext>()))
+            {
+                UserTokenProvider = new DataProtectorTokenProvider<ConnectUser, int>(provider.Create("EmailConfirmation"))
+            };
         }
     }
 

@@ -7,6 +7,7 @@
     using System.Data.Entity;
     using System.Threading.Tasks;
 
+    [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/manageaccess")]
     public class ManageAccessController : BaseApiController
     {

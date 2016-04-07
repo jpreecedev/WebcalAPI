@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Net;
     using System.Net.Mail;
     using System.Net.Mime;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using System.Web.Http.Results;
     using Connect.Shared.Models;
     using Core;
     using Helpers;

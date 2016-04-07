@@ -11,6 +11,7 @@
     using Core;
     using Models;
 
+    [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/licenses")]
     public class LicensesController : BaseApiController
     {
