@@ -19,10 +19,16 @@
         [HttpGet]
         public IHttpActionResult Get()
         {
-            using (var context = new ConnectContext())
+            var data = MemoryCacher.GetValue<IEnumerable<RecentCalibrationsViewModel>>("RecentCalibrations");
+            if (data == null)
             {
-                return Ok(context.GetAllDocuments(ConnectUser).Select(c => new RecentCalibrationsViewModel(c)));
+                using (var context = new ConnectContext())
+                {
+                    data = context.GetAllDocuments(ConnectUser).Select(c => new RecentCalibrationsViewModel(c));
+                    MemoryCacher.Add("RecentCalibrations", data, DateTimeOffset.UtcNow.AddHours(1));
+                }
             }
+            return Ok(data);
         }
 
         [HttpPost]

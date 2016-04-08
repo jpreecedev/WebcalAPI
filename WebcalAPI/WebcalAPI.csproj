@@ -114,6 +114,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
@@ -183,6 +184,7 @@
     <Compile Include="Core\ConnectContext.cs" />
     <Compile Include="Core\ConnectContextExtensions.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\MemoryCacher.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
     <Compile Include="Identity\CustomOAuthProvider.cs" />

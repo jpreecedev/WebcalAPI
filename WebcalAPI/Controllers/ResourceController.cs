@@ -17,6 +17,11 @@
         [Route("certificate/{itemId}/{itemKey}")]
         public async Task<HttpResponseMessage> DownloadCertificate(int itemId, string itemKey)
         {
+            if (!string.IsNullOrEmpty(itemKey) && itemKey == FilterDocumentType.AnalogueTachograph.ToString())
+            {
+                itemKey = FilterDocumentType.Tachograph.ToString();
+            }
+
             DocumentType documentType;
             if (Enum.TryParse(itemKey, out documentType))
             {
