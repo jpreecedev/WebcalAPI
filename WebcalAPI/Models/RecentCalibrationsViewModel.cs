@@ -1,8 +1,10 @@
 ﻿namespace WebcalAPI.Models
 {
     using System;
+    using System.Xml.Serialization;
     using Connect.Shared;
     using Connect.Shared.Models;
+    using Newtonsoft.Json;
 
     public class RecentCalibrationsViewModel
     {
@@ -13,6 +15,8 @@
                 return;
             }
 
+            UserId = document.UserId;
+            Created = document.Created;
             DocumentId = document.Id;
             CompanyName = document.CompanyName;
             DocumentTypeEnum = DocumentTypeHelper.Parse(document);
@@ -24,6 +28,12 @@
             Customer = document.CustomerContact;
             DepotName = document.DepotName;
         }
+
+        [JsonIgnore, XmlIgnore]
+        public int UserId { get; set; }
+
+        [JsonIgnore, XmlIgnore]
+        public DateTime Created { get; set; }
 
         public FilterDocumentType DocumentTypeEnum { get; set; }
 

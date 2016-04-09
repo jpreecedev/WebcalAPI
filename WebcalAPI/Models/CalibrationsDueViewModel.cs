@@ -1,8 +1,10 @@
 ﻿namespace WebcalAPI.Models
 {
     using System;
+    using System.Xml.Serialization;
     using Connect.Shared;
     using Connect.Shared.Models;
+    using Newtonsoft.Json;
 
     public class CalibrationsDueViewModel
     {
@@ -13,6 +15,8 @@
                 return;
             }
 
+            UserId = document.UserId;
+            Created = document.Created;
             DocumentId = document.Id;
             DocumentTypeEnum = DocumentTypeHelper.Parse(document);
             DocumentType = DocumentTypeEnum.AsDisplayString();
@@ -27,6 +31,12 @@
             var tachographDocument = document as TachographDocument;
             VehicleManufacturer = tachographDocument != null ? tachographDocument.VehicleMake : string.Empty;
         }
+
+        [JsonIgnore, XmlIgnore]
+        public int UserId { get; set; }
+
+        [JsonIgnore, XmlIgnore]
+        public DateTime Created { get; set; }
 
         public string DepotName { get; set; }
 

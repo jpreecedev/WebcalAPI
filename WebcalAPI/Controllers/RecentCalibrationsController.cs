@@ -8,6 +8,7 @@
     using System.Net.Mime;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using Connect.Shared;
     using Connect.Shared.Models;
     using Core;
     using Helpers;
@@ -29,6 +30,30 @@
                 }
             }
             return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("{userId}/{from}")]
+        public IHttpActionResult Get(int userId, DateTime from)
+        {
+            if (userId == -1 && !User.IsInRole(ConnectRoles.Admin))
+            {
+                return Unauthorized();
+            }
+            using (var context = new ConnectContext())
+            {
+                try
+                {
+                    var data = context.GetAllDocuments(ConnectUser).Select(c => new RecentCalibrationsViewModel(c))
+                    .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date);
+                    return Ok(data);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            return BadRequest();
         }
 
         [HttpPost]

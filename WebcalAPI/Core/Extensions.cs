@@ -35,6 +35,11 @@
             return data.Skip((pageIndex - 1)*pageSize).Take(pageSize);
         }
 
+        public static DateTime StartOfLastMonth(this DateTime dateTime)
+        {
+            return DateTime.Parse($"1/{dateTime.Month}/{dateTime.Year}").AddMonths(-1);
+        }
+
         public static DateTime StartOfMonth(this DateTime dateTime)
         {
             return DateTime.Parse($"1/{dateTime.Month}/{dateTime.Year}");

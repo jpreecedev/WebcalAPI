@@ -1,8 +1,10 @@
 ﻿namespace WebcalAPI.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using Connect.Shared;
     using Core;
     using Models;
 
@@ -18,6 +20,23 @@
             using (var context = new ConnectContext())
             {
                 return Ok(context.GetAllDocuments(ConnectUser, from, to).Select(c => new CalibrationsDueViewModel(c)));
+            }
+        }
+
+        [HttpGet]
+        [Route("{userId}/{from}/{to}")]
+        public IHttpActionResult Get(int userId, DateTime from, DateTime to)
+        {
+            if (userId == -1 && !User.IsInRole(ConnectRoles.Admin))
+            {
+                return Unauthorized();
+            }
+
+            using (var context = new ConnectContext())
+            {
+                var data = context.GetAllDocuments(ConnectUser, from, to).Select(c => new CalibrationsDueViewModel(c))
+                    .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date && c.Expiration.Date <= to.Date);
+                return Ok(data);
             }
         }
     }

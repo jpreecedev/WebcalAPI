@@ -9,7 +9,8 @@
     {
         public ClientViewModel()
         {
-}
+            
+        }
 
         public ClientViewModel(Client client)
         {
