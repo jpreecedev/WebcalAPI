@@ -60,7 +60,7 @@
         public IHttpActionResult Email([FromBody] CalibrationEmailViewModel calibrationData)
         {
             var body = EmailHelper.GetCalibrationDataTable(calibrationData.Calibrations);
-            SendEmail(calibrationData.Recipient, "Recent Calibrations", body);
+            SendEmail(calibrationData.Recipient, "Your Recent Calibrations Data", body);
             return Ok();
         }
 
@@ -97,8 +97,8 @@
             {
                 fileStream.Write(document.SerializedData, 0, document.SerializedData.Length);
             }
-
-            SendEmail(to, subject, "Your calibration certificate is attached to this email.", new List<Attachment>
+            
+            SendEmail(to, subject, "Your certificate is attached to this email. Thanks for using <a href=\"https://www.webcalconnect.com/connect\">WebcalConnect.com</a>.", new List<Attachment>
             {
                 new Attachment(filePath, new ContentType("application/pdf"))
             });

@@ -53,12 +53,12 @@
                 {
                     case ReportType.RecentCalibrations:
                         var recentCalibrations = context.RecentCalibrations(ConnectUser, data.UserId, data.From);
-                        SendEmail(data.Recipient, "Your report from WebcalConnect.com", EmailHelper.GetCalibrationDataTable(recentCalibrations));
+                        SendEmail(data.Recipient, "Your Recent Calibrations Report", EmailHelper.GetCalibrationDataTable(recentCalibrations));
                         break;
 
                     case ReportType.CalibrationsDue:
                         var calibrationsDue = context.CalibrationsDue(ConnectUser, data.UserId, data.From, data.To.GetValueOrDefault());
-                        SendEmail(data.Recipient, "Your report from WebcalConnect.com", EmailHelper.GetCalibrationDataTable(calibrationsDue));
+                        SendEmail(data.Recipient, "Your Calibrations Due Report", EmailHelper.GetCalibrationDataTable(calibrationsDue));
                         break;
                 }
             }

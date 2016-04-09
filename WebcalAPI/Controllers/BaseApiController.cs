@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Net.Http.Formatting;
     using System.Net.Http.Headers;
     using System.Net.Mail;
     using System.Web.Http;
     using Connect.Shared.Models;
     using Core;
+    using Helpers;
     using Microsoft.AspNet.Identity.Owin;
     using Models;
 
@@ -52,7 +54,7 @@
                 mailMessage.To.Add(recipient);
                 mailMessage.Subject = subject;
                 mailMessage.IsBodyHtml = true;
-                mailMessage.Body = body;
+                mailMessage.Body = EmailHelper.GetBasicTemplate(subject, body);
                 mailMessage.From = new MailAddress("webcal@tachoworkshop.co.uk");
 
                 if (attachments != null)

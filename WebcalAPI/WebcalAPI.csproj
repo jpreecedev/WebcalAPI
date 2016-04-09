@@ -189,6 +189,7 @@
     <Compile Include="Core\MemoryCacher.cs" />
     <Compile Include="Core\ReportType.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
     <Compile Include="Identity\CustomOAuthProvider.cs" />
     <Compile Include="Core\Initializer.cs" />
