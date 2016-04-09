@@ -11,11 +11,13 @@
     {
         public static void Register(HttpConfiguration config)
         {
+#if DEBUG
             // Web API configuration and services
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
             config.MessageHandlers.Add(new PreflightRequestsHandler());
+#endif
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -36,7 +38,7 @@
                     var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
                     response.Headers.Add("Access-Control-Allow-Origin", "*");
                     response.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
-                    response.Headers.Add("Access-Control-Allow-Methods", "*");
+                    response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
                     var tsc = new TaskCompletionSource<HttpResponseMessage>();
                     tsc.SetResult(response);
                     return tsc.Task;

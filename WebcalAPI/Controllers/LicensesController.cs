@@ -32,11 +32,11 @@
                         AccessId = license.AccessId
                     }).ToList()
                 });
-                
+
                 return Ok(await model.OrderBy(c => c.Name).ToListAsync());
             }
         }
-        
+
         [HttpPost]
         [Route("client")]
         public async Task<IHttpActionResult> AddClient([FromBody]ClientViewModel data)
@@ -48,6 +48,11 @@
 
             using (var context = new ConnectContext())
             {
+                if (context.Clients.Any(c => c.Name == data.Name))
+                {
+                    return BadRequest("A client already exists with that name.");
+                }
+
                 var client = new Client
                 {
                     Name = data.Name,
@@ -64,19 +69,40 @@
         }
 
         [HttpDelete]
-        [Route("license/{accessId}")]
-        public async Task<IHttpActionResult> DeleteLicense(Guid accessId)
+        [Route("client")]
+        public async Task<IHttpActionResult> DeleteClient([FromBody]DeleteLicenseViewModel data)
         {
             using (var context = new ConnectContext())
             {
-                var license = await context.Licenses.FirstOrDefaultAsync(c => c.AccessId == accessId);
-                if (license != null)
+                var client = await context.Clients.FirstOrDefaultAsync(c => c.AccessId == data.ClientAccessId);
+                if (client != null)
                 {
-                    license.Deleted = DateTime.Now;
+                    client.Deleted = DateTime.Now;
                     await context.SaveChangesAsync();
+                    return Ok();
                 }
+                return NotFound();
+            }
+        }
 
-                return Ok();
+        [HttpDelete]
+        [Route("license")]
+        public async Task<IHttpActionResult> DeleteLicense([FromBody]DeleteLicenseViewModel data)
+        {
+            using (var context = new ConnectContext())
+            {
+                var client = await context.Clients.Include(x => x.Licenses).FirstOrDefaultAsync(c => c.AccessId == data.ClientAccessId);
+                if (client != null)
+                {
+                    var license = client.Licenses.FirstOrDefault(c => c.AccessId == data.LicenseAccessId);
+                    if (license != null)
+                    {
+                        license.Deleted = DateTime.Now;
+                        await context.SaveChangesAsync();
+                        return Ok();
+                    }
+                }
+                return NotFound();
             }
         }
 
