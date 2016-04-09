@@ -40,13 +40,12 @@
             {
                 return Unauthorized();
             }
+
             using (var context = new ConnectContext())
             {
                 try
                 {
-                    var data = context.GetAllDocuments(ConnectUser).Select(c => new RecentCalibrationsViewModel(c))
-                    .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date);
-                    return Ok(data);
+                    return Ok(context.RecentCalibrations(ConnectUser, userId, from));
                 }
                 catch (Exception ex)
                 {
@@ -60,7 +59,7 @@
         [Route("email")]
         public IHttpActionResult Email([FromBody] CalibrationEmailViewModel calibrationData)
         {
-            var body = EmailBuilder.GetCalibrationDataTable(calibrationData.Calibrations);
+            var body = EmailHelper.GetCalibrationDataTable(calibrationData.Calibrations);
             SendEmail(calibrationData.Recipient, "Recent Calibrations", body);
             return Ok();
         }

@@ -7,6 +7,7 @@
     using System.Web.Http;
     using Connect.Shared;
     using Core;
+    using Helpers;
     using Models;
 
     [RoutePrefix("api/generateemailreport")]
@@ -36,6 +37,33 @@
 
                 return Ok(model);
             }
+        }
+
+        public IHttpActionResult Post([FromBody]EmailReportViewModel data)
+        {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (data.UserId == -1 && !User.IsInRole(ConnectRoles.Admin))
+            {
+                return Unauthorized();
+            }
+
+            using (var context = new ConnectContext())
+            {
+                switch (data.ReportType)
+                {
+                    case ReportType.RecentCalibrations:
+                        var recentCalibrations = context.RecentCalibrations(ConnectUser, data.UserId, data.From);
+                        SendEmail(data.Recipient, "Your report from WebcalConnect.com", EmailHelper.GetCalibrationDataTable(recentCalibrations));
+                        break;
+
+                    case ReportType.CalibrationsDue:
+                        var calibrationsDue = context.CalibrationsDue(ConnectUser, data.UserId, data.From, data.To.GetValueOrDefault());
+                        SendEmail(data.Recipient, "Your report from WebcalConnect.com", EmailHelper.GetCalibrationDataTable(calibrationsDue));
+                        break;
+                }
+            }
+
+            return Ok();
         }
     }
 }

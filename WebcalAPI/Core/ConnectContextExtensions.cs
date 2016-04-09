@@ -11,9 +11,22 @@
     using Connect.Shared.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
+    using Models;
 
     public static class ConnectContextExtensions
     {
+        public static IEnumerable<CalibrationsDueViewModel> CalibrationsDue(this ConnectContext context, ConnectUser connectUser, int userId, DateTime from, DateTime to)
+        {
+            return context.GetAllDocuments(connectUser, from, to).Select(c => new CalibrationsDueViewModel(c))
+                .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date && c.Expiration.Date <= to.Date);
+        }
+
+        public static IEnumerable<RecentCalibrationsViewModel> RecentCalibrations(this ConnectContext context, ConnectUser connectUser, int userId, DateTime from)
+        {
+            return context.GetAllDocuments(connectUser).Select(c => new RecentCalibrationsViewModel(c))
+                    .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date);
+        }
+
         public static IEnumerable<T> GetReports<T>(this ConnectContext context, ConnectUser connectUser) where T : BaseReport
         {
             if (connectUser == null)

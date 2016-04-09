@@ -187,6 +187,7 @@
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\MemoryCacher.cs" />
+    <Compile Include="Core\ReportType.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
     <Compile Include="Identity\CustomOAuthProvider.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Models\QCCheckViewModel.cs" />
     <Compile Include="Models\RecentCalibrationsViewModel.cs" />
     <Compile Include="Models\RegisterUserViewModel.cs" />
+    <Compile Include="Models\EmailReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

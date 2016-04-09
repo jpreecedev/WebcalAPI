@@ -34,8 +34,7 @@
 
             using (var context = new ConnectContext())
             {
-                var data = context.GetAllDocuments(ConnectUser, from, to).Select(c => new CalibrationsDueViewModel(c))
-                    .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date && c.Expiration.Date <= to.Date);
+                var data = context.CalibrationsDue(ConnectUser, userId, from, to);
                 return Ok(data);
             }
         }
