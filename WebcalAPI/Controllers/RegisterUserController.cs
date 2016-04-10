@@ -64,9 +64,9 @@
             var code = UserManager.GenerateEmailConfirmationToken(user.Id);
 
 #if DEBUG
-            var callbackUrl = $"http://localhost:3000/confirm-account/{user.Id}/{Uri.EscapeDataString(code)}";
+            var callbackUrl = $"http://localhost:3000/#/confirm-account/{user.Id}/{Uri.EscapeDataString(code)}";
 #else
-            var callbackUrl = $"http://test.webcalconnect.com/confirm-account/{user.Id}/{Uri.EscapeDataString(code)}";
+            var callbackUrl = $"http://test.webcalconnect.com/#/confirm-account/{user.Id}/{Uri.EscapeDataString(code)}";
 #endif
 
             SendEmail(user.Email, "Please confirm your email address", $"Thank you for your interest in <a href=\"https://www.webcalconnect.com/connect\">WebcalConnect.com</a>.  To activate your account, please <a href=\"{callbackUrl}\">click here to verify your email address</a>.<br/><br/>Or alternatively, copy and paste the following URL into your web browser;<br/><br/>{callbackUrl}");
