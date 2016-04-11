@@ -20,7 +20,11 @@
     {
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+#if DEBUG
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
+#else
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "http://test.webcalconnect.com" });
+#endif
 
             ConnectUser user;
             if (!AuthenticateUser(context, out user))

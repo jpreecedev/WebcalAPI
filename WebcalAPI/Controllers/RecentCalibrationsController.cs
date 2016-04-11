@@ -18,18 +18,17 @@
     public class RecentCalibrationsController : BaseApiController
     {
         [HttpGet]
-        public IHttpActionResult Get()
+        [Route("{pageIndex:int}/{pageSize:int}/{filter?}")]
+        public IHttpActionResult Get(int pageIndex, int pageSize, string filter = null)
         {
-            var data = MemoryCacher.GetValue<IEnumerable<RecentCalibrationsViewModel>>("RecentCalibrations");
-            if (data == null)
+            using (var context = new ConnectContext())
             {
-                using (var context = new ConnectContext())
-                {
-                    data = context.GetAllDocuments(ConnectUser).Select(c => new RecentCalibrationsViewModel(c));
-                    MemoryCacher.Add("RecentCalibrations", data, DateTimeOffset.UtcNow.AddHours(1));
-                }
+                var data = context.GetAllDocuments(ConnectUser)
+                    .Select(c => new RecentCalibrationsViewModel(c))
+                    .Where(c => string.IsNullOrEmpty(filter) || (!string.IsNullOrEmpty(c.DepotName) && c.DepotName.ToUpper().Contains(filter.ToUpper())));
+
+                return PagedResponse(pageSize, pageIndex, data);
             }
-            return Ok(data);
         }
 
         [HttpGet]
@@ -97,7 +96,7 @@
             {
                 fileStream.Write(document.SerializedData, 0, document.SerializedData.Length);
             }
-            
+
             SendEmail(to, subject, "Your certificate is attached to this email. Thanks for using <a href=\"https://www.webcalconnect.com/connect\">WebcalConnect.com</a>.", new List<Attachment>
             {
                 new Attachment(filePath, new ContentType("application/pdf"))

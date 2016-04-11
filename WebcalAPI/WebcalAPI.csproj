@@ -186,7 +186,6 @@
     <Compile Include="Core\ConnectContextExtensions.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\MemoryCacher.cs" />
     <Compile Include="Core\ReportType.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\IconHelper.cs" />
