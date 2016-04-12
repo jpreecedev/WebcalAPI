@@ -133,12 +133,6 @@
                         where document.Deleted == null && document.UserId == connectUser.Id
                         select document;
                 }
-                else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)) && connectUser.CustomerContact != null)
-                {
-                    documents = from linkedVehicle in context.LinkedVehicles.Include(x => x.CustomerContact).Where(v => v.CustomerContact.Id == connectUser.CustomerContact.Id).DefaultIfEmpty()
-                        from document in context.Set<T>().Where(d => d.RegistrationNumber == linkedVehicle.VehicleRegistrationNumber).DefaultIfEmpty()
-                        select document;
-                }
 
                 if (from != null && to != null && documents != null)
                 {
@@ -181,7 +175,7 @@
             return GetCentreReports<T>(context, connectUser, (DateTime?) SqlDateTime.MinValue, (DateTime?) SqlDateTime.MaxValue);
         }
 
-        private static IEnumerable<T> GetCentreReports<T>(ConnectContext context, ConnectUser connectUser, DateTime? from, DateTime? to) where T : BaseReport
+        private static IEnumerable<T> GetCentreReports<T>(DbContext context, ConnectUser connectUser, DateTime? from, DateTime? to) where T : BaseReport
         {
             var result = new List<T>();
 

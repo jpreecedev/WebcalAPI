@@ -35,8 +35,6 @@
 
         public DbSet<CustomerContact> CustomerContacts { get; set; }
 
-        public DbSet<LinkedVehicle> LinkedVehicles { get; set; }
-
         public DbSet<Client> Clients { get; set; }
 
         public DbSet<License> Licenses { get; set; }
