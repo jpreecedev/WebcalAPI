@@ -18,16 +18,11 @@
     public class RecentCalibrationsController : BaseApiController
     {
         [HttpGet]
-        [Route("{pageIndex:int}/{pageSize:int}/{filter?}")]
-        public IHttpActionResult Get(int pageIndex, int pageSize, string filter = null)
+        public IHttpActionResult Get()
         {
             using (var context = new ConnectContext())
             {
-                var data = context.GetAllDocuments(ConnectUser)
-                    .Select(c => new RecentCalibrationsViewModel(c))
-                    .Where(c => string.IsNullOrEmpty(filter) || (!string.IsNullOrEmpty(c.DepotName) && c.DepotName.ToUpper().Contains(filter.ToUpper())));
-
-                return PagedResponse(pageSize, pageIndex, data);
+                return Ok(context.GetAllDocuments(ConnectUser).Select(c => new RecentCalibrationsViewModel(c)));
             }
         }
 
