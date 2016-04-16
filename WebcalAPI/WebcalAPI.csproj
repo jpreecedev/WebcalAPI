@@ -170,7 +170,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\CalibrationsDueController.cs" />
-    <Compile Include="Controllers\ConfirmAccountController.cs" />
     <Compile Include="Controllers\GenerateEmailReportController.cs" />
     <Compile Include="Controllers\InspectionDataController.cs" />
     <Compile Include="Controllers\LicensesController.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Models\CentreCheckViewModel.cs" />
     <Compile Include="Models\ClientNameViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
-    <Compile Include="Models\ConfirmAccountViewModel.cs" />
     <Compile Include="Models\DeleteLicenseViewModel.cs" />
     <Compile Include="Models\GenerateEmailReportViewModel.cs" />
     <Compile Include="Models\HistoryViewModel.cs" />
