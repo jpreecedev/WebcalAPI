@@ -1,6 +1,6 @@
-﻿namespace WebcalAPI.Core
+﻿namespace Webcal.Model
 {
-    public enum ReportType
+    public enum ApiReportType
     {
         CalibrationsDue,
         RecentCalibrations

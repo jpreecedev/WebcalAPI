@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System;
     using System.Net;

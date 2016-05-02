@@ -1,10 +1,10 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using WebcalAPI;
+using Webcal.API;
 
 [assembly: OwinStartup(typeof (Startup))]
 
-namespace WebcalAPI
+namespace Webcal.API
 {
     public partial class Startup
     {

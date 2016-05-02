@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,6 @@
     using Core;
     using Helpers;
     using Microsoft.AspNet.Identity.Owin;
-    using Models;
 
     public class BaseApiController : ApiController
     {

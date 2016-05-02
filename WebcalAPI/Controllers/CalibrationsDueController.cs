@@ -1,12 +1,11 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
     using Connect.Shared;
     using Core;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     [RoutePrefix("api/calibrationsdue")]
     public class CalibrationsDueController : BaseApiController

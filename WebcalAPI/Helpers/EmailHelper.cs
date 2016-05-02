@@ -1,9 +1,8 @@
-﻿namespace WebcalAPI.Helpers
+﻿namespace Webcal.API.Helpers
 {
-    using System;
     using System.Collections.Generic;
     using System.Text;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     public static class EmailHelper
     {

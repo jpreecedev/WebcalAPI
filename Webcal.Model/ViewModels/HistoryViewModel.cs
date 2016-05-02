@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Models
+﻿namespace Webcal.Model.ViewModels
 {
     using System;
 

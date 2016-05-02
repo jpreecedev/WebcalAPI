@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
     using System.Web.Http;
     using Connect.Shared.Models.License;
     using Core;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/licenses")]

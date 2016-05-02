@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Core
+﻿namespace Webcal.API.Core
 {
     using System.Data.Entity;
 

@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Core
+﻿namespace Webcal.API.Core
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
     using Connect.Shared.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     public static class ConnectContextExtensions
     {

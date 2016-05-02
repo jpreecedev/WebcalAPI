@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI
+﻿namespace Webcal.API
 {
     using System.Web.Http;
 

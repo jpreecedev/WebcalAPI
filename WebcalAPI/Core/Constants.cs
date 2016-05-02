@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Core
+﻿namespace Webcal.API.Core
 {
     public static class Constants
     {

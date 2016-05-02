@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Models
+﻿namespace Webcal.API.Core
 {
     using System.Collections.Generic;
     using System.Linq;

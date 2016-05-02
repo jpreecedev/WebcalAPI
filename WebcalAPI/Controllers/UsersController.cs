@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System.Linq;
     using System.Security.Claims;

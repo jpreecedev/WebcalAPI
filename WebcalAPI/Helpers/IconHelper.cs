@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebcalAPI.Helpers
+namespace Webcal.API.Helpers
 {
     using Connect.Shared.Models;
 

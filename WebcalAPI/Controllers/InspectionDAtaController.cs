@@ -1,11 +1,10 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
-    using System;
     using System.Linq;
     using System.Web.Http;
     using Connect.Shared.Models;
     using Core;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     [RoutePrefix("api/inspectiondata")]
     public class InspectionDataController : BaseApiController

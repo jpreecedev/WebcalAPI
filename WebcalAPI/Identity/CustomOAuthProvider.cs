@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Identity
+﻿namespace Webcal.API.Identity
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI
+﻿namespace Webcal.API
 {
     using System.Data.Entity;
     using System.Web;

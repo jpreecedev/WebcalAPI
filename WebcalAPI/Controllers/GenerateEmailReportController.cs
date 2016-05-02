@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System;
     using System.Data.Entity;
@@ -6,9 +6,11 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Connect.Shared;
+    using Connect.Shared.Models;
     using Core;
     using Helpers;
-    using Models;
+    using Webcal.Model;
+    using Webcal.Model.ViewModels;
 
     [RoutePrefix("api/generateemailreport")]
     public class GenerateEmailReportController : BaseApiController
@@ -51,12 +53,12 @@
             {
                 switch (data.ReportType)
                 {
-                    case ReportType.RecentCalibrations:
+                    case ApiReportType.RecentCalibrations:
                         var recentCalibrations = context.RecentCalibrations(ConnectUser, data.UserId, data.From);
                         SendEmail(data.Recipient, "Your Recent Calibrations Report", EmailHelper.GetCalibrationDataTable(recentCalibrations));
                         break;
 
-                    case ReportType.CalibrationsDue:
+                    case ApiReportType.CalibrationsDue:
                         var calibrationsDue = context.CalibrationsDue(ConnectUser, data.UserId, data.From, data.To.GetValueOrDefault());
                         SendEmail(data.Recipient, "Your Calibrations Due Report", EmailHelper.GetCalibrationDataTable(calibrationsDue));
                         break;

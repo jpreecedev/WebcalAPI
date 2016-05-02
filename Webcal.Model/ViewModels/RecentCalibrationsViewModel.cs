@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Models
+﻿namespace Webcal.Model.ViewModels
 {
     using System;
     using System.Xml.Serialization;
@@ -6,9 +6,9 @@
     using Connect.Shared.Models;
     using Newtonsoft.Json;
 
-    public class CalibrationsDueViewModel
+    public class RecentCalibrationsViewModel
     {
-        public CalibrationsDueViewModel(Document document)
+        public RecentCalibrationsViewModel(Document document)
         {
             if (document == null)
             {
@@ -18,18 +18,15 @@
             UserId = document.UserId;
             Created = document.Created;
             DocumentId = document.Id;
+            CompanyName = document.CompanyName;
             DocumentTypeEnum = DocumentTypeHelper.Parse(document);
             DocumentType = DocumentTypeEnum.AsDisplayString();
             DocumentIcon = DocumentType.Replace(" ", "");
-            Date = document.InspectionDate.GetValueOrDefault();
-            Expiration = document.InspectionDate.GetValueOrDefault().AddYears(2);
+            Expiration = document.InspectionDate.GetValueOrDefault().Date.AddYears(2);
             Registration = document.RegistrationNumber;
             Technician = document.Technician;
             Customer = document.CustomerContact;
             DepotName = document.DepotName;
-
-            var tachographDocument = document as TachographDocument;
-            VehicleManufacturer = tachographDocument != null ? tachographDocument.VehicleMake : string.Empty;
         }
 
         [JsonIgnore, XmlIgnore]
@@ -38,9 +35,13 @@
         [JsonIgnore, XmlIgnore]
         public DateTime Created { get; set; }
 
-        public string DepotName { get; set; }
+        public FilterDocumentType DocumentTypeEnum { get; set; }
 
-        public DateTime Date { get; set; }
+        public int DocumentId { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string DocumentType { get; set; }
 
         public DateTime Expiration { get; set; }
 
@@ -50,14 +51,8 @@
 
         public string Customer { get; set; }
 
-        public string VehicleManufacturer { get; set; }
-
-        public int DocumentId { get; set; }
-
-        public FilterDocumentType DocumentTypeEnum { get; set; }
-
-        public string DocumentType { get; set; }
-
         public string DocumentIcon { get; set; }
+
+        public string DepotName { get; set; }
     }
 }

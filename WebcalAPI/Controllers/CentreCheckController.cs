@@ -1,10 +1,10 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System.Linq;
     using System.Web.Http;
     using Connect.Shared.Models;
     using Core;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     [RoutePrefix("api/centrecheck")]
     public class CentreCheckController : BaseApiController

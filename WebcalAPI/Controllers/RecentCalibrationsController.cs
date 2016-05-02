@@ -1,4 +1,4 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -12,7 +12,7 @@
     using Connect.Shared.Models;
     using Core;
     using Helpers;
-    using Models;
+    using Webcal.Model.ViewModels;
 
     [RoutePrefix("api/recentcalibrations")]
     public class RecentCalibrationsController : BaseApiController

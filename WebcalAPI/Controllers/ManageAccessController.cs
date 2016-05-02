@@ -1,11 +1,11 @@
-﻿namespace WebcalAPI.Controllers
+﻿namespace Webcal.API.Controllers
 {
     using System.Linq;
     using System.Web.Http;
     using Core;
-    using Models;
     using System.Data.Entity;
     using System.Threading.Tasks;
+    using Webcal.Model.ViewModels;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/manageaccess")]
