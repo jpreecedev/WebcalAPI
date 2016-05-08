@@ -5,7 +5,7 @@
     using System.Web.Http;
     using Connect.Shared;
     using Core;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [RoutePrefix("api/calibrationsdue")]
     public class CalibrationsDueController : BaseApiController

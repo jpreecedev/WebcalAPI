@@ -4,7 +4,7 @@
     using System.Web.Http;
     using Connect.Shared.Models;
     using Core;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [RoutePrefix("api/qccheck")]
     public class QCCheckController : BaseApiController

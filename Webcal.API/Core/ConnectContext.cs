@@ -47,6 +47,10 @@
 
         public DbSet<QCReport6Month> QCReports6Month { get; set; }
 
+        public DbSet<Technician> Technicians { get; set; }
+
+        public DbSet<WorkshopSettings> WorkshopSettings { get; set; }
+
         public override Task<int> SaveChangesAsync()
         {
             try

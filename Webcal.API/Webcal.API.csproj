@@ -180,6 +180,7 @@
     <Compile Include="Controllers\RecentCalibrationsController.cs" />
     <Compile Include="Controllers\RegisterUserController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
+    <Compile Include="Controllers\StatusReportController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConnectContext.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\IconHelper.cs" />
+    <Compile Include="Helpers\StatusReportHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
     <Compile Include="Identity\CustomOAuthProvider.cs" />
     <Compile Include="Core\Initializer.cs" />

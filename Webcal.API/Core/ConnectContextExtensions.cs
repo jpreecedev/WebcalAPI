@@ -11,7 +11,7 @@
     using Connect.Shared.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
-    using Model.ViewModels;
+    using Model;
 
     public static class ConnectContextExtensions
     {

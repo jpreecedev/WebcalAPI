@@ -9,7 +9,7 @@
     using System.Web.Http;
     using Connect.Shared.Models.License;
     using Core;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/licenses")]

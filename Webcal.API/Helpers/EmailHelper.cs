@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Text;
-    using Webcal.Model.ViewModels;
+    using Webcal.Model;
 
     public static class EmailHelper
     {

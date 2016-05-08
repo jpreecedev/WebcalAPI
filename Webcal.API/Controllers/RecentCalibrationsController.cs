@@ -12,7 +12,7 @@
     using Connect.Shared.Models;
     using Core;
     using Helpers;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [RoutePrefix("api/recentcalibrations")]
     public class RecentCalibrationsController : BaseApiController

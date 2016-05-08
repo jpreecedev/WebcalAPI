@@ -1,4 +1,4 @@
-﻿namespace Webcal.Model.ViewModels
+﻿namespace Webcal.Model
 {
     using Connect.Shared;
 

@@ -12,7 +12,7 @@
     using Connect.Shared.Models.License;
     using Core;
     using Microsoft.AspNet.Identity;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/registeruser")]

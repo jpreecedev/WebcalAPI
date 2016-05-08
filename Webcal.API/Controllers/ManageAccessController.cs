@@ -5,7 +5,7 @@
     using Core;
     using System.Data.Entity;
     using System.Threading.Tasks;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/manageaccess")]

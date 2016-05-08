@@ -5,6 +5,7 @@
     using System.Data.Entity;
     using System.Linq;
     using System.Security.Principal;
+    using System.Threading;
     using Connect.Shared.Models;
     using Microsoft.AspNet.Identity;
 
@@ -48,6 +49,12 @@
         public static DateTime EndOfNextMonth(this DateTime dateTime)
         {
             return DateTime.Parse($"1/{DateTime.Now.Month}/{DateTime.Now.Year}").AddMonths(2).AddDays(-1);
+        }
+
+        public static string ToTitleCase(this string source)
+        {
+            var textInfo = Thread.CurrentThread.CurrentUICulture.TextInfo;
+            return textInfo.ToTitleCase(source.ToLower());
         }
     }
 }

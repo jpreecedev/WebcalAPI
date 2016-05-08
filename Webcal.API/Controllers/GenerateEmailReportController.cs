@@ -6,11 +6,9 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Connect.Shared;
-    using Connect.Shared.Models;
     using Core;
     using Helpers;
-    using Webcal.Model;
-    using Webcal.Model.ViewModels;
+    using Model;
 
     [RoutePrefix("api/generateemailreport")]
     public class GenerateEmailReportController : BaseApiController
