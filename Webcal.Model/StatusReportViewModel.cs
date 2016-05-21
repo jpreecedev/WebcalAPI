@@ -8,8 +8,10 @@
 
     public class StatusReportViewModel
     {
-        public StatusReportViewModel(List<Technician> technicians, WorkshopSettings workshopSettings)
+        public StatusReportViewModel(List<Technician> technicians, WorkshopSettings workshopSettings, List<StatusReportUserViewModel> users)
         {
+            Users = users;
+
             if (technicians == null || technicians.Count == 0 || workshopSettings == null)
             {
                 return;
@@ -21,7 +23,7 @@
             Score = CalculateScore(technicians);
         }
 
-        private DateTime? TachoCentreLastCheck { get; }
+        public DateTime? TachoCentreLastCheck { get; }
 
         public DateTime? GV212LastCheck { get; set; }
 
@@ -36,6 +38,8 @@
         public List<string> LineChartLabels { get; set; }
 
         public List<int> LineChartData { get; set; }
+
+        public List<StatusReportUserViewModel> Users { get; set; }
 
         private ReportItemStatus GetGV212Status()
         {

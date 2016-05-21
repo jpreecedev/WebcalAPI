@@ -187,6 +187,7 @@
     <Compile Include="Core\ConnectContextExtensions.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\TechnicianExtensions.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Helpers\StatusReportHelper.cs" />
@@ -198,6 +199,11 @@
     </Compile>
     <Compile Include="Core\PagedResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +226,12 @@
       <Project>{E3D9181B-18FE-4211-A663-5FAF1753992A}</Project>
       <Name>Webcal.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

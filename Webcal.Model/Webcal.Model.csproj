@@ -86,6 +86,7 @@
     <Compile Include="ReportDocumentViewModel.cs" />
     <Compile Include="StatusReportData.cs" />
     <Compile Include="StatusReportTechnician.cs" />
+    <Compile Include="StatusReportUserViewModel.cs" />
     <Compile Include="StatusReportViewModel.cs" />
     <Compile Include="TechnicianViewModel.cs" />
   </ItemGroup>

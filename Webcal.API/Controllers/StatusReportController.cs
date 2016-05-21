@@ -1,6 +1,7 @@
 ﻿namespace Webcal.API.Controllers
 {
     using System.Linq;
+    using System.Net;
     using System.Web.Http;
     using Connect.Shared;
     using Core;
@@ -12,12 +13,15 @@
     public class StatusReportController : BaseApiController
     {
         [HttpGet]
-        [Route("{userId:int}")]
-        public IHttpActionResult Get(int userId)
+        [Route("{userId?}")]
+        public IHttpActionResult Get(int? userId)
         {
+            var suppliedUserId = userId == null ? User.Identity.GetUserId<int>() : userId.GetValueOrDefault();
+            var isAdministrator = User.IsInRole(ConnectRoles.Admin);
+
             using (var context = new ConnectContext())
             {
-                if (userId != User.Identity.GetUserId<int>() && !User.IsInRole(ConnectRoles.Admin))
+                if (suppliedUserId != User.Identity.GetUserId<int>() && !isAdministrator)
                 {
                     return NotFound();
                 }
@@ -25,23 +29,35 @@
                 var last12Months = StatusReportHelper.GetLast12Months();
                 var from = last12Months.First();
                 var to = last12Months.Last().AddMonths(1).AddDays(-1);
+                var technicians = context.Technicians.Where(c => c.UserId == suppliedUserId).ToList();
+                var users = isAdministrator ? context.Users.Where(u => u.Deleted == null)
+                    .OrderBy(c => c.CompanyKey)
+                    .Select(c => new StatusReportUserViewModel {Name = c.CompanyKey, Id = c.Id})
+                    .ToList() : null;
 
-                var statusReportData = new StatusReportData
+                if (technicians.Count > 0)
                 {
-                    Technicians = context.Technicians.Where(c => c.UserId == userId).ToList(),
-                    WorkshopSettings = context.WorkshopSettings.Where(c => c.UserId == userId)
-                        .OrderByDescending(c => c.Created)
-                        .FirstOrDefault(),
-                    Last12Months = last12Months,
-                    Documents = context.TachographDocuments.Where(c => c.Created >= from && c.Created <= to)
-                        .Select(c => new ReportDocumentViewModel
-                        {
-                            Technician = c.Technician,
-                            Created = c.Created
-                        }).ToList()
-                };
+                    var statusReportData = new StatusReportData
+                    {
+                        Technicians = technicians,
+                        WorkshopSettings = context.WorkshopSettings.Where(c => c.UserId == suppliedUserId)
+                            .OrderByDescending(c => c.Created)
+                            .FirstOrDefault(),
+                        Last12Months = last12Months,
+                        Documents = context.TachographDocuments.Where(c => c.Created >= from && c.Created <= to)
+                            .Select(c => new ReportDocumentViewModel
+                            {
+                                Technician = c.Technician,
+                                Created = c.Created
+                            }).ToList()
+                    };
+                    return Ok(StatusReportHelper.GenerateStatusReport(statusReportData, users));
+                }
 
-                return Ok(StatusReportHelper.GenerateStatusReport(statusReportData));
+                return Ok(new StatusReportViewModel(null, null, users)
+                {
+                    Users = users
+                });
             }
         }
     }

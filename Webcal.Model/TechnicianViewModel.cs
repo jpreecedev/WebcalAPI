@@ -12,6 +12,8 @@
             Technician = technician;
             JobsDoneInLast12Months = documents.Count(c => c.Technician == technician.Name);
             JobsMonthByMonth = new Dictionary<DateTime, int>();
+            DateOfLastCheck = technician.DateOfLastCheck;
+            DateOfLast3YearCheck = technician.DateOfLast3YearCheck;
 
             foreach (var last12Month in last12Months)
             {
@@ -31,5 +33,9 @@
         public int JobsDoneInLast12Months { get; }
 
         public Dictionary<DateTime, int> JobsMonthByMonth { get; }
+
+        public DateTime? DateOfLastCheck { get; set; }
+
+        public DateTime? DateOfLast3YearCheck { get; set; }
     }
 }
