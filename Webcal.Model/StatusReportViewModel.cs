@@ -18,12 +18,19 @@
             }
 
             TachoCentreLastCheck = workshopSettings.CentreQuarterlyCheckDate;
+            TachoCentreNextCheck = workshopSettings.CentreQuarterlyCheckDate == null ? (DateTime?)null : workshopSettings.CentreQuarterlyCheckDate.GetValueOrDefault().AddMonths(3).Date;
             GV212LastCheck = workshopSettings.MonthlyGV212Date;
             ColorStart = ColorStop = GetColorForScore(technicians);
             Score = CalculateScore(technicians);
         }
 
         public DateTime? TachoCentreLastCheck { get; }
+
+        public DateTime? TachoCentreNextCheck { get; set; }
+
+        public string TachoCentreQuarterlyStatusText { get; set; }
+
+        public string TachoCentreQuarterlyStatusTextColor { get; set; }
 
         public DateTime? GV212LastCheck { get; set; }
 
@@ -40,6 +47,68 @@
         public List<int> LineChartData { get; set; }
 
         public List<StatusReportUserViewModel> Users { get; set; }
+
+        public ReportItemStatus GV212Status
+        {
+            get
+            {
+                if (GV212LastCheck == null)
+                {
+                    return ReportItemStatus.Unknown;
+                }
+
+                var lastCheck = GV212LastCheck.GetValueOrDefault().Date;
+                var now = DateTime.Now.Date;
+
+                if (lastCheck > now)
+                {
+                    return ReportItemStatus.Unknown;
+                }
+
+                if (lastCheck.Date.Month == now.Month && lastCheck.Date.Year == now.Year)
+                {
+                    return ReportItemStatus.Ok;
+                }
+
+                return ReportItemStatus.Expired;
+            }
+        }
+
+        public ReportItemStatus TachoCentreQuarterlyStatus
+        {
+            get
+            {
+                if (TachoCentreLastCheck == null)
+                {
+                    return ReportItemStatus.Unknown;
+                }
+
+                var lastCheck = TachoCentreLastCheck.GetValueOrDefault().Date;
+                var now = DateTime.Now.Date;
+
+                if (lastCheck > now)
+                {
+                    return ReportItemStatus.Unknown;
+                }
+
+                var expiration = lastCheck.AddMonths(3).Date;
+                var checkDue = expiration.AddDays(-7).Date;
+
+                if (now >= checkDue && now <= expiration)
+                {
+                    return ReportItemStatus.CheckDue;
+                }
+                if (now < checkDue)
+                {
+                    return ReportItemStatus.Ok;
+                }
+                return ReportItemStatus.Expired;
+            }
+        }
+
+        public string GV212StatusTextColor { get; set; }
+
+        public string GV212StatusText { get; set; }
 
         private ReportItemStatus GetGV212Status()
         {

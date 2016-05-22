@@ -24,6 +24,14 @@
 
             result.LineChartLabels = data.Last12Months.Select(c => c.ToString("MMM yy")).ToList();
 
+            string tachoCentreQuarterlyStatusText;
+            result.TachoCentreQuarterlyStatusTextColor = "#" + GetStatus(result.TachoCentreQuarterlyStatus, out tachoCentreQuarterlyStatusText);
+            result.TachoCentreQuarterlyStatusText = tachoCentreQuarterlyStatusText;
+
+            string gv212StatusText;
+            result.GV212StatusTextColor = "#" + GetStatus(result.GV212Status, out gv212StatusText);
+            result.GV212StatusText = gv212StatusText;
+
             return result;
         }
 
@@ -148,6 +156,11 @@
             {
                 color = toColor(Color.FromArgb(255, 140, 0));
                 return Resources.TXT_STATUS_REPORT_CHECK_DUE;
+            }
+            if (statusText == Resources.TXT_STATUS_REPORT_UNKNOWN && threeYearStatusText == Resources.TXT_STATUS_REPORT_EXPIRED)
+            {
+                color = toColor(Color.FromArgb(178, 34, 34));
+                return Resources.TXT_STATUS_REPORT_EXPIRED;
             }
             color = toColor(Color.FromArgb(0, 0, 0));
             return string.Empty;
