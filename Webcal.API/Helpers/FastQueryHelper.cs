@@ -4,10 +4,11 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Text;
+    using Connect.Shared.Models;
 
     public static class FastQueryHelper
     {
-        public static string GetSqlQueryFor<T>()
+        public static string GetSqlQueryFor<T>() where T : Document
         {
             var properties = typeof(T).GetProperties().Where(c => !Attribute.IsDefined(c, typeof(NotMappedAttribute)))
                 .Where(c => c.Name != "SerializedData")
