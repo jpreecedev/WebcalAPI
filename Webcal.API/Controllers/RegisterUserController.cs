@@ -58,7 +58,7 @@
 
         private static void SendConfirmationEmail(ConnectUser user)
         {
-            SendEmail(user.Email, "Thank you for registering", "Thank you for your interest in <a href=\"http://test.webcalconnect.com/\">WebcalConnect.com</a>.  Your account has been created and you can log in straight away");
+            SendEmail(user.Email, "Thank you for registering", "Thank you for your interest in <a href=\"https://www.webcalconnect.com/\">WebcalConnect.com</a>.  Your account has been created and you can log in straight away");
         }
 
         private void AssociateUserWithTachoCentre(ConnectContext context, ConnectUser user)

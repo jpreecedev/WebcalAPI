@@ -23,7 +23,7 @@
 #if DEBUG
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
 #else
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "http://test.webcalconnect.com" });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "https://www.webcalconnect.com" });
 #endif
 
             ConnectUser user;
