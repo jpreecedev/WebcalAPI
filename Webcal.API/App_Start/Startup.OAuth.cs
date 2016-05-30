@@ -67,12 +67,16 @@
 
             var oauthServerOptions = new OAuthAuthorizationServerOptions
             {
-                AllowInsecureHttp = true,
+                AllowInsecureHttp = false,
                 TokenEndpointPath = new PathString("/oauth2/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(90),
                 Provider = new CustomOAuthProvider(),
                 AccessTokenFormat = new CustomJwtFormat(issuer)
             };
+
+#if DEBUG
+            oauthServerOptions.AllowInsecureHttp = true;
+#endif
 
             app.UseOAuthAuthorizationServer(oauthServerOptions);
         }
