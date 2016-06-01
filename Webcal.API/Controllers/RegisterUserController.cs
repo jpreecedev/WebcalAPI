@@ -56,7 +56,7 @@
             }
         }
 
-        private static void SendConfirmationEmail(ConnectUser user)
+        private void SendConfirmationEmail(ConnectUser user)
         {
             SendEmail(user.Email, "Thank you for registering", "Thank you for your interest in <a href=\"https://www.webcalconnect.com/\">WebcalConnect.com</a>.  Your account has been created and you can log in straight away");
         }

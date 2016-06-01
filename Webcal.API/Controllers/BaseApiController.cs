@@ -45,15 +45,21 @@
             return Ok(new PagedResponse<T>(data, pageIndex, pageSize));
         }
 
-        protected static void SendEmail(string recipient, string subject, string body, List<Attachment> attachments = null)
+        protected void SendEmail(string to, string subject, string body, List<Attachment> attachments = null)
         {
             using (var mailMessage = new MailMessage())
             {
-                mailMessage.To.Add(recipient);
+                mailMessage.Sender = new MailAddress("webcal@tachoworkshop.co.uk");
+                mailMessage.To.Add(to);
                 mailMessage.Subject = subject;
                 mailMessage.IsBodyHtml = true;
                 mailMessage.Body = EmailHelper.GetBasicTemplate(subject, body);
-                mailMessage.From = new MailAddress("webcal@tachoworkshop.co.uk");
+
+                var connectUser = ConnectUser;
+                if (!string.IsNullOrEmpty(connectUser.Email))
+                {
+                    mailMessage.From = new MailAddress(connectUser.Email);
+                }
 
                 if (attachments != null)
                 {
