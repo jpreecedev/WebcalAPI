@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.IO;
+    using System.IO.Compression;
     using System.Linq;
     using System.Security.Principal;
     using System.Threading;
@@ -55,6 +57,35 @@
         {
             var textInfo = Thread.CurrentThread.CurrentUICulture.TextInfo;
             return textInfo.ToTitleCase(source.ToLower());
+        }
+
+        public static byte[] Decompress(this byte[] data)
+        {
+            try
+            {
+                using (var stream = new GZipStream(new MemoryStream(data), CompressionMode.Decompress))
+                {
+                    const int size = 4096;
+                    var buffer = new byte[size];
+                    using (var memory = new MemoryStream())
+                    {
+                        int count;
+                        do
+                        {
+                            count = stream.Read(buffer, 0, size);
+                            if (count > 0)
+                            {
+                                memory.Write(buffer, 0, count);
+                            }
+                        } while (count > 0);
+                        return memory.ToArray();
+                    }
+                }
+            }
+            catch
+            {
+                return data;
+            }
         }
     }
 }

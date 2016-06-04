@@ -1,6 +1,7 @@
 ﻿namespace Webcal.API.Controllers
 {
     using System;
+    using System.Data.Entity;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -13,6 +14,22 @@
     [RoutePrefix("api/resource")]
     public class ResourceController : BaseApiController
     {
+        [HttpGet, Authorize(Roles = "Administrator")]
+        [Route("exceptionImage/{id}")]
+        public async Task<HttpResponseMessage> DownloadExceptionImage(int id)
+        {
+            using (var context = new ConnectContext())
+            {
+                var exception = await context.DetailedExceptions.FirstOrDefaultAsync(c => c.Id == id);
+                if (exception != null)
+                {
+                    return Image(exception.RawImage.Decompress(), "ExceptionScreenshot.jpg");
+                }
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        }
+
         [HttpGet]
         [Route("certificate/{itemId}/{itemKey}")]
         public async Task<HttpResponseMessage> DownloadCertificate(int itemId, string itemKey)

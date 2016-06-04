@@ -15,6 +15,7 @@
         public ConnectContext()
             : base("ConnectContext")
         {
+            
         }
 
         public DbSet<TachographDocument> TachographDocuments { get; set; }
@@ -50,6 +51,8 @@
         public DbSet<Technician> Technicians { get; set; }
 
         public DbSet<WorkshopSettings> WorkshopSettings { get; set; }
+
+        public DbSet<DetailedException> DetailedExceptions { get; set; }
 
         public override Task<int> SaveChangesAsync()
         {

@@ -28,16 +28,12 @@
 
         protected HttpResponseMessage Pdf(byte[] data, string fileName)
         {
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(Convert.ToBase64String(data))
-            };
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = fileName,
-            };
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            return result;
+            return CustomHeaderResponse(data, fileName, "application/pdf");
+        }
+
+        protected HttpResponseMessage Image(byte[] data, string fileName)
+        {
+            return CustomHeaderResponse(data, fileName, "image/jpeg");
         }
 
         protected IHttpActionResult PagedResponse<T>(int pageSize, int pageIndex, IEnumerable<T> data)
@@ -73,6 +69,20 @@
                     smtp.Send(mailMessage);
                 }
             }
+        }
+
+        private static HttpResponseMessage CustomHeaderResponse(byte[] data, string fileName, string mimeType)
+        {
+            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(Convert.ToBase64String(data))
+            };
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = fileName,
+            };
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
+            return result;
         }
     }
 }
