@@ -3,14 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Data.SqlTypes;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
     using Connect.Shared;
     using Connect.Shared.Models;
-    using Helpers;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Model;
@@ -125,13 +123,13 @@
 
                 if (userRoles.Any(role => string.Equals(ConnectRoles.Admin, role)))
                 {
-                    documents = (from document in context.Set<T>().SqlQuery(FastQueryHelper.GetSqlQueryFor<T>())
+                    documents = (from document in context.Set<T>().SqlQuery(FastQueryHelper.GetSqlQueryFor<T>(true))
                                  where document.Deleted == null
                                  select document).ToList();
                 }
                 else if (userRoles.Any(role => string.Equals(ConnectRoles.TachographCentre, role)))
                 {
-                    documents = (from document in context.Set<T>().SqlQuery(FastQueryHelper.GetSqlQueryFor<T>())
+                    documents = (from document in context.Set<T>().SqlQuery(FastQueryHelper.GetSqlQueryFor<T>(true))
                                  where document.Deleted == null && document.UserId == connectUser.Id
                                  select document).ToList();
                 }
@@ -180,10 +178,10 @@
 
         private static IEnumerable<T> DoGetReports<T>(ConnectContext context, ConnectUser connectUser) where T : BaseReport
         {
-            return GetCentreReports<T>(context, connectUser, (DateTime?)SqlDateTime.MinValue, (DateTime?)SqlDateTime.MaxValue);
+            return GetCentreReports<T>(context, connectUser);
         }
 
-        private static IEnumerable<T> GetCentreReports<T>(ConnectContext context, ConnectUser connectUser, DateTime? from, DateTime? to) where T : BaseReport
+        private static IEnumerable<T> GetCentreReports<T>(DbContext context, ConnectUser connectUser) where T : BaseReport
         {
             var result = new List<T>();
 

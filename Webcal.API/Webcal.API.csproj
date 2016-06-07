@@ -192,7 +192,6 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\TechnicianExtensions.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
-    <Compile Include="Helpers\FastQueryHelper.cs" />
     <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Helpers\StatusReportHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
