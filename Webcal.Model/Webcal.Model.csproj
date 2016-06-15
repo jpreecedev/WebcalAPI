@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="DeleteDetailedExceptionViewModel.cs" />
     <Compile Include="DetailedExceptionViewModel.cs" />
+    <Compile Include="DirectUploadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiReportType.cs" />
     <Compile Include="CalibrationCertificateEmailViewModel.cs" />

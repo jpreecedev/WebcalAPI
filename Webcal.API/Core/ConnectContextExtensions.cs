@@ -15,6 +15,46 @@
 
     public static class ConnectContextExtensions
     {
+        public static async Task<DirectUploadDocument> GetDirectUploadDocumentAsync(this ConnectContext context, ConnectUser connectUser, int documentId)
+        {
+            var applicationUserManager = GetApplicationUserManager();
+            var userRoles = applicationUserManager.GetRoles(connectUser.Id);
+
+            if (userRoles.Any(role => string.Equals(ConnectRoles.Admin, role)))
+            {
+                return await (from document in context.Set<DirectUploadDocument>()
+                    where document.Deleted == null && document.Id == documentId
+                    select document).FirstOrDefaultAsync();
+            }
+
+            return await (from document in context.Set<DirectUploadDocument>()
+                where document.Deleted == null && document.UserId == connectUser.Id && document.Id == documentId
+                select document).FirstOrDefaultAsync();
+        }
+
+        public static async Task<IEnumerable<DirectUploadDocument>> GetDirectUploadDocumentsAsync(this ConnectContext context, ConnectUser connectUser)
+        {
+            var applicationUserManager = GetApplicationUserManager();
+
+            IQueryable<DirectUploadDocument> documents;
+            var userRoles = applicationUserManager.GetRoles(connectUser.Id);
+
+            if (userRoles.Any(role => string.Equals(ConnectRoles.Admin, role)))
+            {
+                documents = from document in context.Set<DirectUploadDocument>()
+                            where document.Deleted == null
+                            select document;
+            }
+            else
+            {
+                documents = from document in context.Set<DirectUploadDocument>()
+                            where document.Deleted == null && document.UserId == connectUser.Id
+                            select document;
+            }
+
+            return await documents.ToListAsync();
+        }
+
         public static IEnumerable<CalibrationsDueViewModel> CalibrationsDue(this ConnectContext context, ConnectUser connectUser, int userId, DateTime from, DateTime to)
         {
             return context.GetAllDocuments(connectUser, from, to).Select(c => new CalibrationsDueViewModel(c))

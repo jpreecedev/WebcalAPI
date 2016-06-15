@@ -73,5 +73,32 @@
 
             return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
+
+        [HttpGet]
+        [Route("directupload/{itemId}/")]
+        public async Task<HttpResponseMessage> DirectUpload(int itemId)
+        {
+            DirectUploadDocument document;
+            using (var context = new ConnectContext())
+            {
+                document = await context.GetDirectUploadDocumentAsync(ConnectUser, itemId);
+            }
+
+            var userId = -1;
+            byte[] serializedData = null;
+            
+            if (document != null)
+            {
+                userId = document.UserId;
+                serializedData = document.SerializedData;
+            }
+            
+            if (userId != -1 && serializedData != null && (User.IsInRole(ConnectRoles.Admin) || User.Identity.GetUserId<int>() == userId))
+            {
+                return Pdf(serializedData, $"{document.FileName}");
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        }
     }
 }
