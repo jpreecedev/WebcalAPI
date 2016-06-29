@@ -5,11 +5,12 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using Connect.Shared;
     using Core;
     using Model;
 
-    [Authorize(Roles = "Administrator")]
-    public class DetailedExceptionsController : ApiController
+    [Authorize(Roles = ConnectRoles.Admin)]
+    public class DetailedExceptionsController : BaseApiController
     {
         [HttpDelete]
         public async Task<IHttpActionResult> Delete([FromBody]DeleteDetailedExceptionViewModel data)
