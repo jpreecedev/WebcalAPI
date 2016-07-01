@@ -6,6 +6,7 @@
     using System.Data.Entity;
     using System.Threading.Tasks;
     using Model;
+    using Shared;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/manageaccess")]

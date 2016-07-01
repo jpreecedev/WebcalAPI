@@ -10,6 +10,7 @@
     using Connect.Shared.Models;
     using Core;
     using Microsoft.AspNet.Identity;
+    using Shared;
 
     [RoutePrefix("api/resource")]
     public class ResourceController : BaseApiController

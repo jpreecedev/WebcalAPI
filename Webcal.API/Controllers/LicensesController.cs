@@ -10,6 +10,7 @@
     using Connect.Shared.Models.License;
     using Core;
     using Model;
+    using Shared;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/licenses")]

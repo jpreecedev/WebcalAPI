@@ -1,4 +1,4 @@
-﻿namespace Webcal.API.Core
+﻿namespace Webcal.Shared
 {
     using System;
     using System.Collections.Generic;
