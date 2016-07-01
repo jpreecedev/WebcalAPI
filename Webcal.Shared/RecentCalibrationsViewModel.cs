@@ -1,4 +1,4 @@
-﻿namespace Webcal.Model
+﻿namespace Webcal.Shared
 {
     using System;
     using System.Xml.Serialization;

@@ -95,12 +95,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUserManager.cs" />
+    <Compile Include="CalibrationEmailViewModel.cs" />
     <Compile Include="ConnectContext.cs" />
     <Compile Include="ConnectContextExtensions.cs" />
     <Compile Include="ConnectUserStore.cs" />
     <Compile Include="EmailHelper.cs" />
     <Compile Include="IconHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecentCalibrationsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Webcal.Model\Webcal.Model.csproj">
