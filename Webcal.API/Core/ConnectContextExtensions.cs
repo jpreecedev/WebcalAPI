@@ -72,7 +72,7 @@
             if (connectUser == null)
             {
                 throw new ArgumentException("ConnectUser is invalid");
-            }
+            } 
 
             IEnumerable<T> result = new List<T>();
 
