@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressBookEntryViewModel.cs" />
+    <Compile Include="CalibrationEmailViewModel.cs" />
     <Compile Include="DeleteDetailedExceptionViewModel.cs" />
     <Compile Include="DetailedExceptionViewModel.cs" />
     <Compile Include="DirectUploadViewModel.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="ManageAccessSiteViewModel.cs" />
     <Compile Include="ManageAccessUserViewModel.cs" />
     <Compile Include="QCCheckViewModel.cs" />
+    <Compile Include="RecentCalibrationsViewModel.cs" />
     <Compile Include="RegisterUserViewModel.cs" />
     <Compile Include="ReportDocumentViewModel.cs" />
     <Compile Include="StatusReportData.cs" />
