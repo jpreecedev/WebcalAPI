@@ -1,6 +1,7 @@
-﻿namespace Webcal.Shared
+﻿using System;
+
+namespace Webcal.API.Helpers
 {
-    using System;
     using Connect.Shared.Models;
 
     public static class IconHelper

@@ -7,8 +7,8 @@
     using System.Web.Http;
     using Connect.Shared;
     using Core;
+    using Helpers;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/generateemailreport")]
     public class GenerateEmailReportController : BaseApiController
