@@ -8,7 +8,6 @@
     using Core;
     using Microsoft.AspNet.Identity;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/addressbook")]
     public class AddressBookController : BaseApiController

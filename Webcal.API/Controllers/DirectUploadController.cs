@@ -13,7 +13,6 @@
     using Core;
     using Microsoft.AspNet.Identity;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/directupload")]
     public class DirectUploadController : BaseApiController

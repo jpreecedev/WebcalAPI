@@ -10,7 +10,6 @@
     using System.Threading;
     using Connect.Shared.Models;
     using Microsoft.AspNet.Identity;
-    using Shared;
 
     public static class Extensions
     {

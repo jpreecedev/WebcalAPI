@@ -10,9 +10,9 @@
     using Connect.Shared;
     using Connect.Shared.Models;
     using Connect.Shared.Models.License;
+    using Core;
     using Microsoft.AspNet.Identity;
     using Model;
-    using Shared;
 
     [Authorize(Roles = "Administrator")]
     [RoutePrefix("api/registeruser")]

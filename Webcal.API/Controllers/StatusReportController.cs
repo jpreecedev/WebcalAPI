@@ -7,7 +7,6 @@
     using Helpers;
     using Microsoft.AspNet.Identity;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/statusreport")]
     public class StatusReportController : BaseApiController

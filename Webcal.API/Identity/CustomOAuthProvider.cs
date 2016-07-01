@@ -10,11 +10,11 @@
     using System.Web;
     using Connect.Shared;
     using Connect.Shared.Models;
+    using Core;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.OAuth;
-    using Shared;
 
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {

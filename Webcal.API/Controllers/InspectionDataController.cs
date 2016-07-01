@@ -5,7 +5,6 @@
     using Connect.Shared.Models;
     using Core;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/inspectiondata")]
     public class InspectionDataController : BaseApiController

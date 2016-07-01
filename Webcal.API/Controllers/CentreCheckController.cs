@@ -5,7 +5,6 @@
     using Connect.Shared.Models;
     using Core;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/centrecheck")]
     public class CentreCheckController : BaseApiController

@@ -8,7 +8,6 @@
     using Connect.Shared;
     using Core;
     using Model;
-    using Shared;
 
     [Authorize(Roles = ConnectRoles.Admin)]
     public class DetailedExceptionsController : BaseApiController

@@ -6,7 +6,6 @@
     using Connect.Shared;
     using Core;
     using Model;
-    using Shared;
 
     [RoutePrefix("api/calibrationsdue")]
     public class CalibrationsDueController : BaseApiController

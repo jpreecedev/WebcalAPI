@@ -2,14 +2,47 @@
 {
     using System;
     using System.Configuration;
+    using System.Data.Entity;
+    using Connect.Shared;
+    using Connect.Shared.Models;
+    using Core;
     using Identity;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.DataHandler.Encoder;
+    using Microsoft.Owin.Security.DataProtection;
     using Microsoft.Owin.Security.Jwt;
     using Microsoft.Owin.Security.OAuth;
     using Owin;
-    using Shared;
+
+    public class ConnectUserStore : UserStore<ConnectUser, ConnectRole, int, ConnectUserLogin, ConnectUserRole, ConnectUserClaim>
+    {
+        public ConnectUserStore(DbContext context)
+            : base(context)
+        {
+        }
+    }
+
+    public class ApplicationUserManager : UserManager<ConnectUser, int>
+    {
+        public ApplicationUserManager(IUserStore<ConnectUser, int> store)
+            : base(store)
+        {
+        }
+
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
+        {
+            var provider = new DpapiDataProtectionProvider("WebcalAPI");
+
+            return new ApplicationUserManager(new ConnectUserStore(context.Get<ConnectContext>()))
+            {
+                UserTokenProvider = new DataProtectorTokenProvider<ConnectUser, int>(provider.Create("EmailConfirmation"))
+            };
+        }
+    }
 
     public partial class Startup
     {
