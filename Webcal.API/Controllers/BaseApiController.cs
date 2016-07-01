@@ -9,8 +9,8 @@
     using System.Web.Http;
     using Connect.Shared.Models;
     using Core;
-    using Helpers;
     using Microsoft.AspNet.Identity.Owin;
+    using Shared;
 
     public class BaseApiController : ApiController
     {

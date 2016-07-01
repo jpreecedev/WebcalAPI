@@ -193,8 +193,6 @@
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\TechnicianExtensions.cs" />
-    <Compile Include="Helpers\EmailHelper.cs" />
-    <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Helpers\StatusReportHelper.cs" />
     <Compile Include="Identity\CustomJWTFormat.cs" />
     <Compile Include="Identity\CustomOAuthProvider.cs" />
@@ -230,6 +228,10 @@
     <ProjectReference Include="..\Webcal.Model\Webcal.Model.csproj">
       <Project>{E3D9181B-18FE-4211-A663-5FAF1753992A}</Project>
       <Name>Webcal.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Webcal.Shared\Webcal.Shared.csproj">
+      <Project>{4FE0B564-9EBE-465B-BB25-21A72DF88C24}</Project>
+      <Name>Webcal.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
