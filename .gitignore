@@ -250,3 +250,5 @@ css/**/*.css.map
 /Webcal.API/App_Data/uploads
 /Webcal.API/App_Data/BodyPart_79407c56-ca42-41c0-85aa-e05afb248a8d
 /Webcal.API/App_Data/BodyPart_1ff79e65-b01d-4f18-9311-b53c79016659
+
+Webcal.API/StatusReportData
