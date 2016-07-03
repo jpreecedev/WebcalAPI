@@ -18,16 +18,20 @@
     public class RecentCalibrationsController : BaseApiController
     {
         [HttpGet]
-        [Route("{from:datetime}/{to:datetime}/{filter?}")]
-        public IHttpActionResult Get(DateTime from, DateTime to, string filter = null)
+        [Route("{dateFrom:datetime}/{to:datetime}/{filter?}")]
+        public IHttpActionResult Get(DateTime dateFrom, DateTime to, string filter = null)
         {
             using (var context = new ConnectContext())
             {
-                return Ok(context.GetAllDocuments(ConnectUser)
-                    .Where(c => c.Created.Date >= from.Date && c.Created.Date <= to.Date)
-                    .Where(c => string.IsNullOrEmpty(filter) || (!string.IsNullOrEmpty(c.DepotName) && c.DepotName.ToUpper().Contains(filter.ToUpper())))
-                    .Select(c => new RecentCalibrationsViewModel(c))
-                    .OrderByDescending(c => c.Created));
+                var documents = from document in context.GetAllDocuments(ConnectUser)
+                                join contact in context.CustomerContacts on document.CustomerContact equals contact.Name into customerContact
+                                from subContact in customerContact.DefaultIfEmpty()
+                                where document.Created.Date >= dateFrom.Date && document.Created.Date <= to.Date
+                                where string.IsNullOrEmpty(filter) || (!string.IsNullOrEmpty(document.DepotName) && document.DepotName.ToUpper().Contains(filter.ToUpper()))
+                                orderby document.Created descending
+                                select new RecentCalibrationsViewModel(document, subContact);
+
+                return Ok(documents.ToList());
             }
         }
 

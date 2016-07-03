@@ -63,7 +63,7 @@
 
         public static IEnumerable<RecentCalibrationsViewModel> RecentCalibrations(this ConnectContext context, ConnectUser connectUser, int userId, DateTime from)
         {
-            return context.GetAllDocuments(connectUser).Select(c => new RecentCalibrationsViewModel(c))
+            return context.GetAllDocuments(connectUser).Select(c => new RecentCalibrationsViewModel(c, null))
                     .Where(c => (c.UserId == userId || userId == -1) && c.Created.Date >= from.Date);
         }
 

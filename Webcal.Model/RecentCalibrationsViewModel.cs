@@ -8,7 +8,7 @@
 
     public class RecentCalibrationsViewModel
     {
-        public RecentCalibrationsViewModel(Document document)
+        public RecentCalibrationsViewModel(Document document, CustomerContact customerContact)
         {
             if (document == null)
             {
@@ -27,6 +27,12 @@
             Technician = document.Technician;
             Customer = document.CustomerContact;
             DepotName = document.DepotName;
+
+            if (customerContact != null)
+            {
+                PrimaryEmailAddress = customerContact.Email;
+                SecondaryEmailAddress = customerContact.SecondaryEmail;
+            }
         }
 
         [JsonIgnore, XmlIgnore]
@@ -54,5 +60,9 @@
         public string DocumentIcon { get; set; }
 
         public string DepotName { get; set; }
+
+        public string PrimaryEmailAddress { get; set; }
+
+        public string SecondaryEmailAddress { get; set; }
     }
 }
