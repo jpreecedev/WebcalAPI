@@ -55,7 +55,15 @@
                 if (document != null)
                 {
                     userId = document.UserId;
-                    serializedData = document.SerializedData;
+                    using (var context = new ConnectContext())
+                    {
+                        var fullDocumentType = documentType.GetAttributeOfType<FullDocumentTypeAttribute>().Type;
+                        var documentSerializedData = await context.SerializedData.FirstOrDefaultAsync(s => s.DocumentId == document.Id && s.DocumentType == fullDocumentType);
+                        if (documentSerializedData != null)
+                        {
+                            serializedData = documentSerializedData.Data;
+                        }
+                    }
                 }
 
                 var report = model as BaseReport;
@@ -86,13 +94,13 @@
 
             var userId = -1;
             byte[] serializedData = null;
-            
+
             if (document != null)
             {
                 userId = document.UserId;
                 serializedData = document.SerializedData;
             }
-            
+
             if (userId != -1 && serializedData != null && (User.IsInRole(ConnectRoles.Admin) || User.Identity.GetUserId<int>() == userId))
             {
                 return Pdf(serializedData, $"{document.FileName}");

@@ -83,5 +83,7 @@
         {
             return new ConnectContext();
         }
+
+        public DbSet<SerializedData> SerializedData { get; set; }
     }
 }

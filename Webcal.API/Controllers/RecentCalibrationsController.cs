@@ -1,4 +1,6 @@
-﻿namespace Webcal.API.Controllers
+﻿using System.Data.Entity;
+
+namespace Webcal.API.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -75,8 +77,14 @@
             using (var context = new ConnectContext())
             {
                 document = (Document)await context.GetDocumentAsync(calibrationData.DocumentType, calibrationData.DocumentId);
+                var fullDocumentType = calibrationData.DocumentType.GetAttributeOfType<FullDocumentTypeAttribute>().Type;
+                var documentSerializedData = await context.SerializedData.FirstOrDefaultAsync(s => s.DocumentId == document.Id && s.DocumentType == fullDocumentType);
+                if (documentSerializedData != null)
+                {
+                    document.SerializedData = documentSerializedData.Data;
+                }
             }
-
+            
             if (document != null && document.SerializedData != null)
             {
                 try

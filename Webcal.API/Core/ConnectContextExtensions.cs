@@ -80,7 +80,7 @@
 
             return result.OrderByDescending(c => c.Created.Date);
         }
-
+        
         public static async Task<BaseModel> GetDocumentAsync(this ConnectContext context, DocumentType documentType, int id)
         {
             IQueryable<BaseModel> set = null;
