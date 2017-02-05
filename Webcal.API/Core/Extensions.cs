@@ -13,6 +13,11 @@
 
     public static class Extensions
     {
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
+        {
+            return items.GroupBy(property).Select(x => x.First());
+        }
+
         public static ConnectUser GetConnectUser(this IPrincipal principal)
         {
             if (principal == null || principal.Identity == null)

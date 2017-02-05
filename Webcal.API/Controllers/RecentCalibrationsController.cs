@@ -27,7 +27,7 @@ namespace Webcal.API.Controllers
             {
                 var documents = from document in context.GetAllDocuments(ConnectUser)
                                 join contact in context.CustomerContacts on document.CustomerContact equals contact.Name into customerContact
-                                from subContact in customerContact.DefaultIfEmpty()
+                                from subContact in customerContact.DefaultIfEmpty().Where(x => x?.Name != null).Where(x => x.UserId == document.UserId).DistinctBy(x => x.Name)
                                 where document.Created.Date >= dateFrom.Date && document.Created.Date <= to.Date
                                 where string.IsNullOrEmpty(filter) || (!string.IsNullOrEmpty(document.DepotName) && document.DepotName.ToUpper().Contains(filter.ToUpper()))
                                 orderby document.Created descending
