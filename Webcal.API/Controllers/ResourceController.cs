@@ -1,4 +1,6 @@
-﻿namespace Webcal.API.Controllers
+﻿using System.Web;
+
+namespace Webcal.API.Controllers
 {
     using System;
     using System.Data.Entity;
@@ -70,7 +72,16 @@
                 if (report != null && report.ConnectUserId != null)
                 {
                     userId = report.ConnectUserId.Value;
-                    serializedData = report.SerializedData;
+
+                    using (var context = new ConnectContext())
+                    {
+                        var docT = documentType.GetAttributeOfType<FullDocumentTypeAttribute>().Type;
+                        var documentSerializedData = await context.SerializedData.FirstOrDefaultAsync(s => s.DocumentId == report.Id && s.DocumentType == docT);
+                        if (documentSerializedData != null)
+                        {
+                            serializedData = documentSerializedData.Data;
+                        }
+                    }
                 }
 
                 if (userId != -1 && serializedData != null && (User.IsInRole(ConnectRoles.Admin) || User.Identity.GetUserId<int>() == userId))
@@ -81,7 +92,7 @@
 
             return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
-
+        
         [HttpGet]
         [Route("directupload/{itemId}/")]
         public async Task<HttpResponseMessage> DirectUpload(int itemId)
