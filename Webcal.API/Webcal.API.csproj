@@ -181,6 +181,7 @@
     <Compile Include="Controllers\LicensesController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\CentreCheckController.cs" />
+    <Compile Include="Controllers\MobileApplicationController.cs" />
     <Compile Include="Controllers\QCCheckController.cs" />
     <Compile Include="Controllers\RecentCalibrationsController.cs" />
     <Compile Include="Controllers\RegisterUserController.cs" />
