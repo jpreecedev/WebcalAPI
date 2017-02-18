@@ -11,13 +11,11 @@
     {
         public static void Register(HttpConfiguration config)
         {
-#if DEBUG
             // Web API configuration and services
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
             config.MessageHandlers.Add(new PreflightRequestsHandler());
-#endif
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -29,7 +27,7 @@
                 );
         }
 
-        public class PreflightRequestsHandler : DelegatingHandler
+        private class PreflightRequestsHandler : DelegatingHandler
         {
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
