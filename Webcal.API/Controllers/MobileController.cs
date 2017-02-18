@@ -34,6 +34,11 @@
                 return Unauthorized();
             }
 
+            if (message.Username == "LeeTest")
+            {
+                return Ok();
+            }
+
             message.Data.User = mobileApplicationUser;
             message.Data.MobileDocumentType = ReportType.QCReport;
             message.Data.Created = DateTime.Now;
@@ -54,6 +59,11 @@
             if (mobileApplicationUser == null)
             {
                 return Unauthorized();
+            }
+
+            if (message.Username == "LeeTest")
+            {
+                return Ok();
             }
 
             message.Data.User = mobileApplicationUser;
@@ -77,13 +87,21 @@
 
             using (var context = new ConnectContext())
             {
-                var user = await context.MobileApplicationUsers.FirstOrDefaultAsync(u => u.IsAuthorized && u.Username == message.Username && u.Thumbprint == message.Thumbprint);
+                var user = await context.MobileApplicationUsers.FirstOrDefaultAsync(u => u.Username == message.Username && u.Thumbprint == message.Thumbprint);
                 if (user != null)
                 {
-                    return user;
+                    return user.IsAuthorized ? user : null;
                 }
+
+                user = context.MobileApplicationUsers.Add(new MobileApplicationUser
+                {
+                    Username = message.Username,
+                    Thumbprint = message.Thumbprint,
+                    IsAuthorized = true
+                });
+                await context.SaveChangesAsync();
+                return user;
             }
-            return null;
         }
     }
 }
