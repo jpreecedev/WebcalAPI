@@ -111,6 +111,7 @@
             var result = new MobileAppRequestViewModel<T>
             {
                 Username = formData["message[username]"],
+                EmailAddress = formData["message[emailAddress]"],
                 Thumbprint = formData["message[thumbprint]"],
                 Data = new T()
             };

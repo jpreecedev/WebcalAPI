@@ -133,6 +133,7 @@
                 var user = await context.MobileApplicationUsers.FirstOrDefaultAsync(u => u.Username == message.Username && u.Thumbprint == message.Thumbprint);
                 if (user != null)
                 {
+                    user.EmailAddress = message.EmailAddress;
                     return user.IsAuthorized ? user : null;
                 }
 
@@ -140,6 +141,7 @@
                 {
                     Username = message.Username,
                     Thumbprint = message.Thumbprint,
+                    EmailAddress = message.EmailAddress,
                     IsAuthorized = true
                 });
                 await context.SaveChangesAsync();
