@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="AddressBookEntryViewModel.cs" />
     <Compile Include="CalibrationEmailViewModel.cs" />
+    <Compile Include="ChangePasswordViewModel.cs" />
     <Compile Include="DeleteDetailedExceptionViewModel.cs" />
     <Compile Include="DetailedExceptionViewModel.cs" />
     <Compile Include="DirectUploadViewModel.cs" />

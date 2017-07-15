@@ -170,6 +170,7 @@
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\CalibrationsDueController.cs" />
     <Compile Include="Controllers\AddressBookController.cs" />
+    <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\DetailedExceptionsController.cs" />
     <Compile Include="Controllers\DirectUploadController.cs" />
     <Compile Include="Controllers\GenerateEmailReportController.cs" />
